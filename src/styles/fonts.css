@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Naturaly';
+    src: url('./fonts/Naturaly.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Kosan';
+    src: url('./fonts/Kosan.otf') format('truetype');
+}
+
+
+.f-naturaly {
+    font-family: 'Naturaly', sans-serif;
+}
+
+.f-kosan {
+    font-family: 'Kosan', sans-serif;
+}
+
+.f-larger {
+    font-size: larger;
+}
+
+.f-large {
+    font-size: large;
+}

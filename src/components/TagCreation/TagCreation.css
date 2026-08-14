@@ -1,0 +1,104 @@
+.tag-creation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  width: 100%;
+  max-width: 35rem;
+
+  margin: 2rem auto;
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+}
+
+.tag-input-row {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.tag-input {
+  box-sizing: border-box;
+
+  padding: 6px 9px;
+
+  background: var(--tag-background);
+  color: var(--text-h);
+
+  border: 1px solid var(--tag-border);
+  border-radius: 6px;
+
+  outline: none;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.tag-input:hover {
+  background: var(--tag-background-hover);
+}
+
+.tag-input:focus {
+  border-color: var(--tag-border-hover);
+}
+
+.tag-name-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.tag-category-input {
+  width: 120px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  cursor: pointer;
+  padding-right: 28px;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-h) 50%),
+    linear-gradient(135deg, var(--text-h) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 9px) 50%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+.tag-category-input:hover {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-h) 50%),
+    linear-gradient(135deg, var(--text-h) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 9px) 50%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+.tag-create-button {
+  padding: 6px 12px;
+
+  border: 1px solid var(--tag-border);
+  border-radius: 6px;
+
+  background: var(--tag-background);
+  color: var(--text-h);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.tag-create-button:hover {
+  background: var(--tag-background-hover);
+  border-color: var(--tag-border-hover);
+}

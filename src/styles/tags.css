@@ -1,0 +1,34 @@
+:root{
+  --tag-background: #241f2d;
+  --tag-border: #40364f;
+  
+  --tag-background-hover: #352c43;
+  --tag-border-hover: #71598f;
+
+  --counter-background: #260746;
+  --counter-border: rgb(96, 94, 94);
+
+  --text-h: #d2d1d1;
+  --text-count: #e8e8e8;
+}
+
+
+.tag-type {
+
+}
+
+.tag-type.author-tag {
+  color: rgb(164, 32, 12);
+}
+
+.tag-type.character-tag {
+  color: rgb(0, 178, 0);
+}
+
+.tag-type.copyright-tag {
+  color: rgb(184, 0, 184);
+}
+
+.tag-type.description-tag {
+  color: rgb(126, 198, 207);
+}

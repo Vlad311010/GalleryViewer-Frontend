@@ -1,0 +1,41 @@
+.center {
+  text-align: center;
+  margin: inherit;
+}
+
+.paginator {
+    margin-top:  1rem;
+    margin-bottom: 1.5rem;
+}
+
+.paginator a {
+  color: var(--text-muted);
+
+  padding: 8px 16px;
+
+  text-decoration: none;
+
+  border: 1px solid var(--purple);
+
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+
+  margin: 0 2.5px;
+}
+
+.paginator a.active {
+  background-color: var(--pagination-active);
+  color: var(--text-h);
+}
+
+.paginator a:hover:not(.active) {
+  background-color: var(--pagination-hover);
+  color: var(--text-h);
+}
+
+.paginator a.empty {
+  border: 0;
+  padding: 0;
+}

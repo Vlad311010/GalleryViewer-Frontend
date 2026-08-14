@@ -1,0 +1,10 @@
+.items-grid {
+  display: grid;
+
+  grid-template-columns: repeat(7, 2fr);
+  grid-template-rows: repeat(6, 1fr);
+
+  gap: 1.5rem;
+
+  margin: 2rem var(--page-side-maring);
+}

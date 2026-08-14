@@ -1,0 +1,72 @@
+.nav-page-container {
+  width: 50%;
+  margin: 25%;
+  margin-top: 10%;
+}
+
+.galleries-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 2fr);
+  grid-template-rows: repeat(1, 1fr);
+
+  gap: 1.5rem;
+
+  align-items: center;
+}
+
+
+.gallery-thumbnail {
+	box-shadow:inset -7px 6px 26px -14px #276873;
+	background:linear-gradient(to bottom, #2bcca1 5%, #1c947a 100%);
+	background-color:#2bcca1;
+	border-radius:8px;
+	border:4px solid #d4d3d2;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:22px;
+	padding:100px 25px;
+    text-align: center;
+    text-shadow: 0 15px 15px #1d1d1d, 0 0 15px #1d1d1d, 0 -15px 15px #1d1d1d;
+	text-decoration:none;
+
+    
+    background-position: 0% 0%;
+    background-size: cover;
+
+    animation-name: coverAnim;
+    animation-duration: 2.5s;
+    animation-timing-function:ease-in-out;
+    animation-fill-mode: forwards;
+    animation-play-state:paused;    
+    animation-iteration-count: infinite;
+    animation-direction: alternate;  
+}
+
+@keyframes coverAnim {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.gallery-thumbnail:active,
+.gallery-thumbnail:focus,
+.gallery-thumbnail:hover {
+    animation-name: coverAnim;
+    animation-duration: 2.5s;
+    animation-timing-function:ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.gallery-thumbnail:active {
+	position:relative;
+	top:1px;
+}
