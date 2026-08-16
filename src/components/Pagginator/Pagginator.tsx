@@ -157,14 +157,6 @@ function usePagginatorKeyboardNavigation(
                     page = Clamp(currentPage + 1, 1, totalPages);
                     break;
 
-                case "Home":
-                    page = 1;
-                    break;
-
-                case "End":
-                    page = totalPages;
-                    break;
-
                 default:
                     return;
             }

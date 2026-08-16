@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import './App.css'
 import './styles/variables.css'
+import './styles/toastNotifications.css';
 
 import { GallerySelector } from '@comp/GallerySelector/GallerySelector';
 import { RoutingWrapper } from "@comp/RoutingWrapper/RoutingWrapper";
@@ -9,11 +10,17 @@ import { Group } from "@comp/Group/Group";
 import { Gallery } from '@comp/Gallery/Gallery';
 import { TagsView } from "@comp/TagsView/TagsView";
 import { TagCreation } from "@comp/TagCreation/TagCreation";
+import { toast, Toaster } from "react-hot-toast";
 
 
 function App() {
 
-  return (
+  return (<>
+    <Toaster 
+      position="bottom-right"
+       containerClassName="WRAPPER"
+      
+    />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<GallerySelector /> } />
@@ -45,16 +52,14 @@ function App() {
 
         <Route 
           path="/tag"
-          element={<TagCreation onCreate={(x) => { console.log(x) }}/>} 
+          element={<TagCreation />} 
         />
 
 
       </Routes>
     </BrowserRouter>
 
-  );
+  </>);
 }
-
-
 
 export default App

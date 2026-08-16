@@ -5,25 +5,32 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
-  GetApiTagsSearchParams,
   ListTagsParams,
   PagedDataOfTagInfoResponseModel,
-  PagedDataOfTagSearchResponseModel
+  ProblemDetails,
+  SearchTagsParams,
+  TagCreateRequestModel,
+  TagCreateResponseModel,
+  TagSearchResponseModel
 } from '../model';
 
 
@@ -45,19 +52,19 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export type getApiTagsSearchResponse200 = {
-  data: PagedDataOfTagSearchResponseModel
+export type searchTagsResponse200 = {
+  data: TagSearchResponseModel[]
   status: 200
 }
 
-export type getApiTagsSearchResponseSuccess = (getApiTagsSearchResponse200) & {
+export type searchTagsResponseSuccess = (searchTagsResponse200) & {
   headers: Headers;
 };
 ;
 
-export type getApiTagsSearchResponse = (getApiTagsSearchResponseSuccess)
+export type searchTagsResponse = (searchTagsResponseSuccess)
 
-export const getGetApiTagsSearchUrl = (params?: GetApiTagsSearchParams,) => {
+export const getSearchTagsUrl = (params?: SearchTagsParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -72,9 +79,9 @@ export const getGetApiTagsSearchUrl = (params?: GetApiTagsSearchParams,) => {
   return stringifiedParams.length > 0 ? `https://localhost:7043/api/Tags/search?${stringifiedParams}` : `https://localhost:7043/api/Tags/search`
 }
 
-export const getApiTagsSearch = async (params?: GetApiTagsSearchParams, options?: RequestInit): Promise<getApiTagsSearchResponse> => {
+export const searchTags = async (params?: SearchTagsParams, options?: RequestInit): Promise<searchTagsResponse> => {
 
-  const res = await fetch(getGetApiTagsSearchUrl(params),
+  const res = await fetch(getSearchTagsUrl(params),
   {
     ...options,
     method: 'GET'
@@ -86,74 +93,74 @@ export const getApiTagsSearch = async (params?: GetApiTagsSearchParams, options?
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: getApiTagsSearchResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as getApiTagsSearchResponse
+  const data: searchTagsResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as searchTagsResponse
 }
 
 
 
 
 
-export const getGetApiTagsSearchQueryKey = (params?: GetApiTagsSearchParams,) => {
+export const getSearchTagsQueryKey = (params?: SearchTagsParams,) => {
     return [
     `https://localhost:7043/api/Tags/search`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getGetApiTagsSearchQueryOptions = <TData = Awaited<ReturnType<typeof getApiTagsSearch>>, TError = unknown>(params?: GetApiTagsSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTagsSearch>>, TError, TData>>, fetch?: RequestInit}
+export const getSearchTagsQueryOptions = <TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiTagsSearchQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getSearchTagsQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiTagsSearch>>> = ({ signal }) => getApiTagsSearch(params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchTags>>> = ({ signal }) => searchTags(params, { signal, ...fetchOptions });
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiTagsSearch>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiTagsSearchQueryResult = NonNullable<Awaited<ReturnType<typeof getApiTagsSearch>>>
-export type GetApiTagsSearchQueryError = unknown
+export type SearchTagsQueryResult = NonNullable<Awaited<ReturnType<typeof searchTags>>>
+export type SearchTagsQueryError = unknown
 
 
-export function useGetApiTagsSearch<TData = Awaited<ReturnType<typeof getApiTagsSearch>>, TError = unknown>(
- params: undefined |  GetApiTagsSearchParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTagsSearch>>, TError, TData>> & Pick<
+export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
+ params: undefined |  SearchTagsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiTagsSearch>>,
+          Awaited<ReturnType<typeof searchTags>>,
           TError,
-          Awaited<ReturnType<typeof getApiTagsSearch>>
+          Awaited<ReturnType<typeof searchTags>>
         > , 'initialData'
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiTagsSearch<TData = Awaited<ReturnType<typeof getApiTagsSearch>>, TError = unknown>(
- params?: GetApiTagsSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTagsSearch>>, TError, TData>> & Pick<
+export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
+ params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiTagsSearch>>,
+          Awaited<ReturnType<typeof searchTags>>,
           TError,
-          Awaited<ReturnType<typeof getApiTagsSearch>>
+          Awaited<ReturnType<typeof searchTags>>
         > , 'initialData'
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiTagsSearch<TData = Awaited<ReturnType<typeof getApiTagsSearch>>, TError = unknown>(
- params?: GetApiTagsSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTagsSearch>>, TError, TData>>, fetch?: RequestInit}
+export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
+ params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetApiTagsSearch<TData = Awaited<ReturnType<typeof getApiTagsSearch>>, TError = unknown>(
- params?: GetApiTagsSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTagsSearch>>, TError, TData>>, fetch?: RequestInit}
+export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
+ params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiTagsSearchQueryOptions(params,options)
+  const queryOptions = getSearchTagsQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -285,3 +292,93 @@ export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError
 
 
 
+export type tagCreateResponse201 = {
+  data: TagCreateResponseModel
+  status: 201
+}
+
+export type tagCreateResponse400 = {
+  data: ProblemDetails
+  status: 400
+}
+
+export type tagCreateResponseSuccess = (tagCreateResponse201) & {
+  headers: Headers;
+};
+export type tagCreateResponseError = (tagCreateResponse400) & {
+  headers: Headers;
+};
+
+export type tagCreateResponse = (tagCreateResponseSuccess | tagCreateResponseError)
+
+export const getTagCreateUrl = () => {
+
+
+
+
+  return `https://localhost:7043/api/Tags`
+}
+
+export const tagCreate = async (tagCreateRequestModel: TagCreateRequestModel, options?: RequestInit): Promise<tagCreateResponse> => {
+
+  const res = await fetch(getTagCreateUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(tagCreateRequestModel)
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: tagCreateResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as tagCreateResponse
+}
+
+
+
+
+
+export const getTagCreateMutationOptions = <TError = ProblemDetails,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data: TagCreateRequestModel}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data: TagCreateRequestModel}, TContext> => {
+
+const mutationKey = ['tagCreate'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof tagCreate>>, {data: TagCreateRequestModel}> = (props) => {
+          const {data} = props ?? {};
+
+          return  tagCreate(data,fetchOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type TagCreateMutationResult = NonNullable<Awaited<ReturnType<typeof tagCreate>>>
+    export type TagCreateMutationBody = TagCreateRequestModel
+    export type TagCreateMutationError = ProblemDetails
+
+    export const useTagCreate = <TError = ProblemDetails,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data: TagCreateRequestModel}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof tagCreate>>,
+        TError,
+        {data: TagCreateRequestModel},
+        TContext
+      > => {
+      return useMutation(getTagCreateMutationOptions(options), queryClient);
+    }

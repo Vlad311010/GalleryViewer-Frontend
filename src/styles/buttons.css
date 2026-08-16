@@ -1,0 +1,114 @@
+:root {
+  --button-text: #e3d6f0;
+  --button-text-hover: #f3e8ff;
+
+  --button-border: #7347d9;
+  --button-border-hover: #8c27ff;
+  --button-focus: #d8b4fe;
+
+
+  --button-purple-rgb: 139, 92, 246;
+
+  --button-glow: rgba(var(--button-purple-rgb), 0.2);
+  --button-glow-hover: rgba(var(--button-purple-rgb), 0.4);
+  --button-fill-hover: rgba(var(--button-purple-rgb), 0.07);
+  --button-fill-active: rgba(var(--button-purple-rgb), 0.12);
+  --button-glow-strong: rgba(var(--button-purple-rgb), 0.18);
+
+  --button-text-glow: rgba(192, 132, 252, 0.55);
+  --button-text-glow-hover: rgba(216, 180, 254, 0.8);
+  --button-text-glow-strong: rgba(168, 85, 247, 0.55);
+
+  --button-shadow-active: rgba(0, 0, 0, 0.25);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: var(--button-text);
+
+  border: 3px solid var(--button-border);
+  border-radius: 3px;
+
+  padding: 0 26px;
+  min-height: 42px;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+
+  cursor: pointer;
+
+  text-shadow:
+    0 0 8px var(--button-text-glow);
+
+  box-shadow:
+    0 0 8px var(--button-glow),
+    inset 0 0 8px rgba(139, 92, 246, 0.06);
+
+  transition: all 160ms ease;
+}
+
+.button:hover {
+  color: var(--button-text-hover);
+  border-color: var(--button-border-hover);
+
+  background: var(--button-fill-hover);
+
+  text-shadow:
+    0 0 6px var(--button-text-glow-hover),
+    0 0 16px var(--button-text-glow-strong);
+
+  box-shadow:
+    0 0 10px var(--button-glow-hover),
+    0 0 24px var(--button-glow-strong),
+    inset 0 0 12px rgba(139, 92, 246, 0.08);
+
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+
+  background: var(--button-fill-active);
+
+  box-shadow:
+    0 0 8px rgba(139, 92, 246, 0.3),
+    inset 0 0 10px var(--button-shadow-active);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--button-focus);
+  outline-offset: 4px;
+}
+
+.button-small {
+  min-width: 40px;
+  height: 32px;
+  padding: 0 14px;
+  font-size: 11px;
+}
+
+.button-medium {
+  min-width: 60px;
+  height: 40px;
+  padding: 0 20px;
+  font-size: 13px;
+}
+
+.button-large {
+  min-width: 90px;
+  height: 48px;
+  padding: 0 26px;
+  font-size: 14px;
+}
+
+.button-xl {
+  min-width: 190px;
+  height: 58px;
+  padding: 0 32px;
+  font-size: 16px;
+}

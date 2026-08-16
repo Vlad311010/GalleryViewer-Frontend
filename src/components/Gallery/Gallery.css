@@ -8,3 +8,43 @@
 
   margin: 2rem var(--page-side-maring);
 }
+
+.markdown-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px 12px;
+
+  box-sizing: border-box;
+}
+
+
+.toolbar-select {
+  flex: 0 0 auto;
+
+  height: 40px;
+  min-width: 100px;
+
+  padding: 0 12px;
+
+  background: #241337;
+  color: var(--button-text);
+
+  border: 2px solid var(--button-border);
+  border-radius: 3px;
+
+  font: inherit;
+  cursor: pointer;
+
+  outline: none;
+}
+
+.toolbar-select:focus {
+  border-color: var(--button-border-hover);
+}
+
+.toolbar-direction {
+  min-width: 76px;
+}

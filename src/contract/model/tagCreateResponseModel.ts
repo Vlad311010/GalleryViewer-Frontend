@@ -5,14 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface TagSearchResponseModel {
+export interface TagCreateResponseModel {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
   id: number | string;
   name: string;
   category: string;
-  /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  occurrences: number | string;
-  isCanonical: boolean;
-  /** @nullable */
-  canonicalName?: string | null;
 }

@@ -7,5 +7,5 @@
 
 export interface TagCreateRequestModel {
   name: string;
-  categoty: string;
+  category: string;
 }

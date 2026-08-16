@@ -55,6 +55,11 @@ function useScrollKeyboardNavigation() {
             }
 
             switch (event.code) {
+                case "Home":
+                case "End":
+                  event.preventDefault();
+                  break;  
+
                 case "ArrowUp":
                 case "KeyW":    
                     event.preventDefault();

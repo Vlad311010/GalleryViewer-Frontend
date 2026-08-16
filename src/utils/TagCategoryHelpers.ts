@@ -13,7 +13,7 @@ export function toTagCategory(value: string | undefined): TagCategory | undefine
   return undefined;
 }
 
-export function toCssStyle(value: TagCategory | undefined): string {
+export function toCssClass(value: TagCategory | undefined): string {
   if (!value) {
     return '';
   }
@@ -24,6 +24,12 @@ export function toCssStyle(value: TagCategory | undefined): string {
 
     case TagCategory.character:
       return 'character-tag';
+
+    case TagCategory.source:
+      return 'source-tag';
+
+    case TagCategory.description:
+      return 'description-tag';
 
     default:
       return '';

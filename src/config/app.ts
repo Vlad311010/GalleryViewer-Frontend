@@ -9,7 +9,7 @@ export const APP_CONFIG = {
   paginatorMaxButtonsDisplayed: 10,
 
   baseUrl: import.meta.env.API_URL,
-  openapi_source: import.meta.env.OPENAPI_SOURCE,
+  openapiSource: import.meta.env.OPENAPI_SOURCE,
 
-  spaceCharacterReplacment: '_'
+  tagSearchFetchLimit: 12,
 };
