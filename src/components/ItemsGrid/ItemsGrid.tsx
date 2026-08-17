@@ -17,6 +17,10 @@ type ItemsGridProps = {
 export function ItemsGrid({ items, page, totalPages } : ItemsGridProps) {
   useScrollKeyboardNavigation();
 
+  if (!items) {
+    items = [];
+  }
+
   return (<>
     <div className="items-grid">
       {items.map((item:DisplayItemResponseModel) => (

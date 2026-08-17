@@ -6,5 +6,5 @@ export const TagCategory = {
   author: 'author',
   character: 'character',
   source: 'source',
-  description: 'description',
+  general: 'general'
 } as const;

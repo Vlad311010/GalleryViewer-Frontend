@@ -9,6 +9,9 @@ import { APP_CONFIG } from "@/config";
 import './Gallery.css'
 import '@styles/tags.css'
 import '@styles/buttons.css'
+import { useContext } from 'react';
+import { SearchContext } from '@comp/SearchQueryState/SearchQueryState';
+import { parseSearchQuery } from '../../utils/searchQueryHelpers';
 
 
 type GalleryProps = {
@@ -18,14 +21,22 @@ type GalleryProps = {
 
 export function Gallery({ identifier, page } : GalleryProps ) {
 
-  const itemsPerPage = APP_CONFIG.galleryItemsPerRow * APP_CONFIG.galleryRows
+  const itemsPerPage = APP_CONFIG.galleryItemsPerRow * APP_CONFIG.galleryRows;
+  const { searchQuery, setSearchQuery } = useContext(SearchContext);
+
+  const { tags, excludeTags } = parseSearchQuery(searchQuery);
+  console.log(tags, excludeTags);
   const filterParams: ListItemsParams = { 
     Skip: (page - 1)  * itemsPerPage,
     Take: itemsPerPage,
+    Tags: tags,
+    ExcludeTags: excludeTags
   }
+  
   
   const { data, isLoading, error } = useListItems(filterParams);
 
+   
   if (!data) {
     return <h3>Loading</h3>;
   }

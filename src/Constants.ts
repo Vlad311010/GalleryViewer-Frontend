@@ -2,4 +2,5 @@
 export const CONSTANTS = {
   TAG_SEPARATOR_CHARACTER: '_',
   SPACE_CHARACTER: ' ',
+  TAG_EXCLUSION_CHARACTER: '-',
 } as const;

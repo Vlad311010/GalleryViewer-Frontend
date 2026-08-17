@@ -1,22 +1,27 @@
 
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './SearchBar.css';
 import { useSearchTags } from '@/contract/tags/tags';
 import { getCurrentWord, replaceCurrentWord, type CurrentWord } from './getCurrentWord';
 import type { TagSearchResponseModel } from '@/contract/model';
 import { CONSTANTS } from '@/Constants';
 import { APP_CONFIG } from '@/config';
+import type { SelectedTag } from '@/models/searchTag';
+import { SearchContext } from '@comp/SearchQueryState/SearchQueryState';
 
 export function SearchBar() {
     
     const inputRef = useRef<HTMLInputElement>(null);
     const autocompleteListRef = useRef<HTMLUListElement>(null);
     
-    const [value, setValue] = useState("");
+    const { searchQuery, setSearchQuery } = useContext(SearchContext)
+
+    const [value, setValue] = useState(searchQuery);
     const [cursorPosition, setCursorPosition] = useState(0);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
     const [isFocused, setIsFocused] = useState(false);
+    const [selectedTags, setSelectedTagIds] = useState<SelectedTag[]>([]);
 
     useInputFocusNavigation(inputRef);
 
@@ -24,6 +29,8 @@ export function SearchBar() {
       value,
       cursorPosition,
     );
+
+    // console.log(selectedTags);
 
     let { suggestions } = useTagSearch(currentWord.value);
 
@@ -37,7 +44,7 @@ export function SearchBar() {
       }
 
       inputRef.current.selectionStart = cursorPosition;
-      inputRef.current.selectionEnd = cursorPosition;
+      //inputRef.current.selectionEnd = cursorPosition;
     }, [value, cursorPosition]);
 
 
@@ -65,7 +72,9 @@ export function SearchBar() {
             setSelectedSuggestionIndex,
             value,
             setValue,
-            setCursorPosition
+            setCursorPosition,
+            setSelectedTagIds,
+            setSearchQuery
           );
         }}
         onFocus={() => setIsFocused(true)}
@@ -151,12 +160,12 @@ const autocompleteNavigation = (
   inputValue: string,
   setValue: React.Dispatch<React.SetStateAction<string>>,
 
-  setCursorPosition: React.Dispatch<React.SetStateAction<number>>
-) => {
+  setCursorPosition: React.Dispatch<React.SetStateAction<number>>,
 
-  if (!suggestions || suggestions.length === 0) {
-    return;
-  }
+  setSelectedTags: React.Dispatch<React.SetStateAction<SelectedTag[]>>,
+  setSearchQuery: (value: string) => void
+
+) => {
 
   const minIndex = 0;
   const maxIndex = suggestions.length - 1;
@@ -182,7 +191,14 @@ const autocompleteNavigation = (
       break;
 
     case "Enter":
-      if (selectedSuggestionIndex === -1) { return; }
+      if (selectedSuggestionIndex === -1) {        
+        setSearchQuery(inputValue);
+        break;
+      }
+
+      if (!suggestions || suggestions.length === 0) {
+        return;
+      }
         
       const { value: newInputValue, cursorPosition: inputCursoPosition } = replaceCurrentWord(
         inputValue,
@@ -192,6 +208,14 @@ const autocompleteNavigation = (
 
       setValue(newInputValue);
       setCursorPosition(inputCursoPosition);
+      setSelectedTags((tags) => {
+        const tagToAdd = { 
+          name: suggestions[selectedSuggestionIndex].name,
+          exclude: currentWord.hasExclusionPrefix,
+        };
+
+        return [...tags, tagToAdd];
+      });
       break;
 
     case "Escape":

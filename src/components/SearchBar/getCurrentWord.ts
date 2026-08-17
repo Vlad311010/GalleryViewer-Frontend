@@ -4,6 +4,7 @@ export interface CurrentWord {
   value: string;
   start: number;
   end: number;
+  hasExclusionPrefix: boolean;
 }
 
 export function getCurrentWord(
@@ -22,10 +23,17 @@ export function getCurrentWord(
     end++;
   }
 
+  let hasExclusionPrefix = false;
+  if (value[start] === CONSTANTS.TAG_EXCLUSION_CHARACTER) {
+    start++;
+    hasExclusionPrefix = true;
+  }
+
   return {
     value: value.slice(start, end),
     start,
     end,
+    hasExclusionPrefix
   };
 }
 

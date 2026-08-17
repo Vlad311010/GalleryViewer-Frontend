@@ -6,6 +6,8 @@
  */
 
 export type ListItemsParams = {
+Tags?: string[];
+ExcludeTags?: string[];
 /**
  * @pattern ^-?(?:0|[1-9]\d*)$
  */
