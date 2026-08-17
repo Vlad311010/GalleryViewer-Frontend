@@ -16,16 +16,15 @@ import { parseSearchQuery } from '../../utils/searchQueryHelpers';
 
 type GalleryProps = {
   identifier: string;
-  page: number;
 };
 
-export function Gallery({ identifier, page } : GalleryProps ) {
+export function Gallery({ identifier } : GalleryProps ) {
 
   const itemsPerPage = APP_CONFIG.galleryItemsPerRow * APP_CONFIG.galleryRows;
-  const { searchQuery, setSearchQuery } = useContext(SearchContext);
+  const { searchQuery, setSearchQuery, page } = useContext(SearchContext);
 
   const { tags, excludeTags } = parseSearchQuery(searchQuery);
-  console.log(tags, excludeTags);
+
   const filterParams: ListItemsParams = { 
     Skip: (page - 1)  * itemsPerPage,
     Take: itemsPerPage,

@@ -4,14 +4,16 @@ import type { ListGroupParams } from  '@api/model/listGroupParams';
 
 import { APP_CONFIG } from "@/config";
 import { ItemsGrid } from '@comp/ItemsGrid/ItemsGrid';
+import { useContext } from 'react';
+import { SearchContext } from '@comp/SearchQueryState/SearchQueryState';
 
 
 type GroupProps = {
   identifier: number;
-  page: number;
 };
 
-export function Group({ identifier, page } : GroupProps ) {
+export function Group({ identifier } : GroupProps ) {
+  const { page } = useContext(SearchContext);
   
   const filterParams: ListGroupParams = { 
     Skip: (page - 1)  * APP_CONFIG.galleryItemsPerRow * APP_CONFIG.galleryRows,

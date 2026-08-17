@@ -1,10 +1,8 @@
-import { usePage } from "@/hooks/usePage";
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 type RoutePageProps<TIdentifier> = {
   identifier: TIdentifier;
-  page: number;
 };
 
 type RouteWrapperProps<TIdentifier> = {
@@ -17,9 +15,6 @@ export function RoutingWrapper<TIdentifier>({
   parseIdentifier,
 }: RouteWrapperProps<TIdentifier>) {
   const { identifier } = useParams<{ identifier: string }>();
-  const [searchParams] = useSearchParams();
-
-  const pageIdx = usePage();
 
   if (!identifier) {
     return <div>Resource identifier isn't specified</div>
@@ -28,7 +23,6 @@ export function RoutingWrapper<TIdentifier>({
   return (
     <Component
       identifier={parseIdentifier(identifier)}
-      page={pageIdx}
     />
   );
 }

@@ -1,22 +1,19 @@
 
 import { useListTags } from '@api/tags/tags';
 
-import { usePage } from '@/hooks/usePage';
 import { APP_CONFIG } from '@/config';
 
 import { toCssClass, toTagCategory } from '@/utils/tagCategoryHelpers';
 
 import './TagsView.css';
 import '@styles/tags.css';
+import { useContext } from 'react';
+import { SearchContext } from '@comp/SearchQueryState/SearchQueryState';
 
-/*type TagsViewProps = {
-  tags: Tag[];
-};*/
 
-// export function TagsView({ tags }: TagsViewProps) {
 export function TagsView() {
 
-  const page = usePage();
+  const { page } = useContext(SearchContext);
   
   const itemsPerPage = APP_CONFIG.tagsViewRows * APP_CONFIG.tagsViewItemsPerRow;
   const request = { 
