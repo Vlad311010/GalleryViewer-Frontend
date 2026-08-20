@@ -4,3 +4,25 @@ export const CONSTANTS = {
   SPACE_CHARACTER: ' ',
   TAG_EXCLUSION_CHARACTER: '-',
 } as const;
+
+
+export const INPUTS = {
+  SCROLL_UP_WASD: 'KeyW',
+  SCROLL_DOWN_WASD: 'KeyS',
+  SCROLL_UP_ARROWS: 'ArrowUp',
+  SCROLL_DOWN_ARROWS: 'ArrowDown',
+
+  SUGGESTION_NAVIGATION_UP: 'ArrowUp',
+  SUGGESTION_NAVIGATION_DOWN: 'ArrowDown',
+  SUGGESTION_NAVIGATION_SUBMIT: 'Enter',
+  SUGGESTION_NAVIGATION_CANCEL: 'Escape',
+
+  PREV_PAGE_WASD: 'KeyA',
+  NEXT_PAGE_WASD: 'KeyD',
+  PREV_PAGE_ARROWS: 'ArrowLeft',
+  NEXT_PAGE_ARROWS: 'ArrowRight',
+  
+  SEARCH_INPUT_FOCUS: 'KeyQ',
+  FOLLOW_PREVIEW_LINK: 'KeyF',
+  SWITCH_MODE: 'KeyE'
+} as const;

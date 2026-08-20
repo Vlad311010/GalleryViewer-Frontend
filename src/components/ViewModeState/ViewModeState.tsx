@@ -1,3 +1,4 @@
+import { INPUTS } from "@/Constants";
 import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -43,7 +44,7 @@ export function EditModeProvider({ children }: { children: React.ReactNode; }) {
     }
 
     switch (event.code) {
-        case "KeyE":
+        case INPUTS.SWITCH_MODE:
             switchEditingMode();
             break;
 

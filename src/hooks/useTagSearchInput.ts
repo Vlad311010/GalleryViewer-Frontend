@@ -8,7 +8,7 @@ import {
 import { useSearchTags } from "@/contract/tags/tags";
 import type { TagSearchResponseModel } from "@/contract/model";
 import { APP_CONFIG } from "@/config";
-import { CONSTANTS } from "@/Constants";
+import { CONSTANTS, INPUTS } from "@/Constants";
 
 import {
   getCurrentWord,
@@ -117,7 +117,7 @@ export function useTagSearchInput({
     const maxIndex = suggestions.length - 1;
 
     switch (event.key) {
-      case "ArrowDown":
+      case INPUTS.SUGGESTION_NAVIGATION_DOWN:
         event.preventDefault();
 
         setSelectedSuggestionIndex((index) =>
@@ -125,7 +125,7 @@ export function useTagSearchInput({
         );
         break;
 
-      case "ArrowUp":
+      case INPUTS.SUGGESTION_NAVIGATION_UP:
         event.preventDefault();
 
         setSelectedSuggestionIndex((index) =>
@@ -135,7 +135,7 @@ export function useTagSearchInput({
         );
         break;
 
-      case "Enter":
+      case INPUTS.SUGGESTION_NAVIGATION_SUBMIT:
         event.preventDefault();
 
         if (selectedSuggestionIndex === -1) {
@@ -149,7 +149,7 @@ export function useTagSearchInput({
         );
         break;
 
-      case "Escape":
+      case INPUTS.SUGGESTION_NAVIGATION_CANCEL:
         event.preventDefault();
         setSelectedSuggestionIndex(-1);
         break;

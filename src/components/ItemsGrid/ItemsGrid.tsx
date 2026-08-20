@@ -5,8 +5,9 @@ import { Pagginator } from "../Pagginator/Pagginator";
 import { APP_CONFIG } from "@/config";
 
 import './ItemsGrid.css'
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
+import { INPUTS } from "@/Constants";
 
 type ItemsGridProps = {
   items: DisplayItemResponseModel[];
@@ -16,7 +17,8 @@ type ItemsGridProps = {
 };
 
 export function ItemsGrid({ items, page, totalPages } : ItemsGridProps) {
-  useScrollKeyboardNavigation();
+  const mousePos = useRef({ x: 0, y: 0 });
+  useScrollKeyboardNavigation(mousePos);
 
   if (!items) {
     items = [];
@@ -44,7 +46,7 @@ export function ItemsGrid({ items, page, totalPages } : ItemsGridProps) {
 }
 
 
-function useScrollKeyboardNavigation() {
+function useScrollKeyboardNavigation(mousePos: React.RefObject<{x: number; y: number;}>) {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             const target = event.target as HTMLElement;
@@ -60,8 +62,8 @@ function useScrollKeyboardNavigation() {
                   event.preventDefault();
                   break;  
 
-                case "ArrowUp":
-                case "KeyW":    
+                case INPUTS.SCROLL_UP_ARROWS:
+                case INPUTS.SCROLL_UP_WASD:
                     event.preventDefault();
 
                     window.scrollTo({
@@ -72,8 +74,8 @@ function useScrollKeyboardNavigation() {
                     break;
 
                 
-                case "ArrowDown":
-                case "KeyS":
+                case INPUTS.SCROLL_DOWN_ARROWS:
+                case INPUTS.SCROLL_DOWN_WASD:
                     event.preventDefault();
 
                     window.scrollTo({
@@ -82,13 +84,40 @@ function useScrollKeyboardNavigation() {
                         behavior: "smooth",
                     });
                     break;
+
+                case INPUTS.FOLLOW_PREVIEW_LINK:
+                  OpenImgUnderMouse(mousePos.current.x, mousePos.current.y);
+                  break;
             }
         };
 
+        const handleMouseMove = (e: MouseEvent) => {
+          mousePos.current.x = e.clientX;
+          mousePos.current.y = e.clientY;
+        };
+
         window.addEventListener("keydown", handleKeyDown);
+        document.addEventListener('mousemove', handleMouseMove);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener('mousemove', handleMouseMove);
         };
     }, []);
+
+    
+}
+
+function OpenImgUnderMouse(x: number, y: number) {
+  const imgPreview = document
+    .elementsFromPoint(x, y)
+    .find(element => element.classList.contains("gallery-item"));
+
+  if (imgPreview) {
+    const imgSrc = imgPreview.querySelector<HTMLAnchorElement>("a")?.href;
+
+    if (imgSrc) {
+      window.open(imgSrc);
+    }
+  }
 }

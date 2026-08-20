@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './Pagginator.css';
 import { useEffect } from "react";
 import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
+import { INPUTS } from "@/Constants";
 
 type PagginatorProps = {
     currentPage: number;
@@ -142,13 +143,13 @@ function usePagginatorKeyboardNavigation(
 
             let page: number | undefined;
             switch (event.code) {
-                case "ArrowLeft":
-                case "KeyA":
+                case INPUTS.PREV_PAGE_ARROWS:
+                case INPUTS.PREV_PAGE_WASD:
                     page = Clamp(currentPage - 1, 1, totalPages);
                     break;
 
-                case "ArrowRight":
-                case "KeyD":
+                case INPUTS.NEXT_PAGE_ARROWS:
+                case INPUTS.NEXT_PAGE_WASD:
                     page = Clamp(currentPage + 1, 1, totalPages);
                     break;
 
