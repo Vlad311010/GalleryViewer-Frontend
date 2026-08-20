@@ -56,7 +56,8 @@ export type listItemsResponseSuccess = (listItemsResponse200) & {
 
 export type listItemsResponse = (listItemsResponseSuccess)
 
-export const getListItemsUrl = (params?: ListItemsParams,) => {
+export const getListItemsUrl = (gallery: string,
+    params?: ListItemsParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -76,12 +77,13 @@ export const getListItemsUrl = (params?: ListItemsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/AssetBrowser?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/AssetBrowser`
+  return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/AssetBrowser/${gallery}?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/AssetBrowser/${gallery}`
 }
 
-export const listItems = async (params?: ListItemsParams, options?: RequestInit): Promise<listItemsResponse> => {
+export const listItems = async (gallery: string,
+    params?: ListItemsParams, options?: RequestInit): Promise<listItemsResponse> => {
 
-  const res = await fetch(getListItemsUrl(params),
+  const res = await fetch(getListItemsUrl(gallery,params),
   {
     ...options,
     method: 'GET'
@@ -101,29 +103,31 @@ export const listItems = async (params?: ListItemsParams, options?: RequestInit)
 
 
 
-export const getListItemsQueryKey = (params?: ListItemsParams,) => {
+export const getListItemsQueryKey = (gallery: string,
+    params?: ListItemsParams,) => {
     return [
-    `${import.meta.env.VITE_API_URL}/api/AssetBrowser`, ...(params ? [params] : [])
+    `${import.meta.env.VITE_API_URL}/api/AssetBrowser/${gallery}`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getListItemsQueryOptions = <TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
+export const getListItemsQueryOptions = <TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(gallery: string,
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getListItemsQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getListItemsQueryKey(gallery,params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listItems>>> = ({ signal }) => listItems(params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listItems>>> = ({ signal }) => listItems(gallery,params, { signal, ...fetchOptions });
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: gallery !== null && gallery !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type ListItemsQueryResult = NonNullable<Awaited<ReturnType<typeof listItems>>>
@@ -131,7 +135,8 @@ export type ListItemsQueryError = unknown
 
 
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
- params: undefined |  ListItemsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>> & Pick<
+ gallery: string,
+    params: undefined |  ListItemsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listItems>>,
           TError,
@@ -141,7 +146,8 @@ export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TErr
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
- params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>> & Pick<
+ gallery: string,
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listItems>>,
           TError,
@@ -151,16 +157,18 @@ export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TErr
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
- params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
+ gallery: string,
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
- params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
+ gallery: string,
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getListItemsQueryOptions(params,options)
+  const queryOptions = getListItemsQueryOptions(gallery,params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

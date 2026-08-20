@@ -12,6 +12,7 @@ import '@styles/buttons.css'
 import { useContext, useState } from 'react';
 import { SearchContext } from '@comp/SearchQueryState/SearchQueryState';
 import { parseSearchQuery } from '@/utils/searchQueryHelpers';
+import { Link } from 'react-router-dom';
 
 
 type GalleryProps = {
@@ -35,7 +36,7 @@ export function Gallery({ identifier } : GalleryProps ) {
   }
   
   
-  const { data, isLoading, error } = useListItems(filterParams);
+  const { data, isLoading, error } = useListItems(identifier, filterParams);
 
    
   if (!data) {
@@ -44,9 +45,9 @@ export function Gallery({ identifier } : GalleryProps ) {
 
   return (<>
     <div className="markdown-toolbar">
-      <button className="button button-large">
+      <Link to="/" className="button button-large">
         ↩ Nav page
-      </button>
+      </Link>
 
       <FiltersInput value={searchBarValue} setValue={setSearchBarValue} onSubmit={setSearchQuery} />
 
