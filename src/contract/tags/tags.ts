@@ -76,7 +76,7 @@ export const getSearchTagsUrl = (params?: SearchTagsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://localhost:7043/api/Tags/search?${stringifiedParams}` : `https://localhost:7043/api/Tags/search`
+  return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/Tags/search?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/Tags/search`
 }
 
 export const searchTags = async (params?: SearchTagsParams, options?: RequestInit): Promise<searchTagsResponse> => {
@@ -103,7 +103,7 @@ export const searchTags = async (params?: SearchTagsParams, options?: RequestIni
 
 export const getSearchTagsQueryKey = (params?: SearchTagsParams,) => {
     return [
-    `https://localhost:7043/api/Tags/search`, ...(params ? [params] : [])
+    `${import.meta.env.VITE_API_URL}/api/Tags/search`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -196,7 +196,7 @@ export const getListTagsUrl = (params?: ListTagsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://localhost:7043/api/Tags/list?${stringifiedParams}` : `https://localhost:7043/api/Tags/list`
+  return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/Tags/list?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/Tags/list`
 }
 
 export const listTags = async (params?: ListTagsParams, options?: RequestInit): Promise<listTagsResponse> => {
@@ -223,7 +223,7 @@ export const listTags = async (params?: ListTagsParams, options?: RequestInit): 
 
 export const getListTagsQueryKey = (params?: ListTagsParams,) => {
     return [
-    `https://localhost:7043/api/Tags/list`, ...(params ? [params] : [])
+    `${import.meta.env.VITE_API_URL}/api/Tags/list`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -316,7 +316,7 @@ export const getTagCreateUrl = () => {
 
 
 
-  return `https://localhost:7043/api/Tags`
+  return `${import.meta.env.VITE_API_URL}/api/Tags`
 }
 
 export const tagCreate = async (tagCreateRequestModel: TagCreateRequestModel, options?: RequestInit): Promise<tagCreateResponse> => {

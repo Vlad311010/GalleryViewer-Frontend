@@ -14,6 +14,7 @@
 .tag-input-row {
   display: flex;
   gap: 0.3rem;
+  width: 100%;
 }
 
 .tag-input {
@@ -43,11 +44,12 @@
 }
 
 .tag-name-input {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
 .tag-category-input {
+   flex: 0 0 120px;
   width: 120px;
 
   appearance: none;

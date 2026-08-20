@@ -16,11 +16,6 @@
   --tag-search-text-glow-hover: rgba(216, 180, 254, 0.8);
 
   --tag-search-text-occurences: rgb(153, 150, 150);
-
-  --tag-search-hints-background: rgba(87, 15, 60, 0.9);
-  --tag-search-hints-background-selected: rgb(16, 15, 15);
-
-
 }
 
 .tag-search-container {
@@ -76,7 +71,7 @@
 
   list-style: none;
 
-  background: var(--tag-search-hints-background);
+  background: var(--tag-input-autocomplete-background);
   color: var(--tag-search-text);
 
   border: 1px solid var(--tag-search-border);
@@ -117,7 +112,7 @@
 
 .tag-search-hint:hover,
 .tag-search-hint-active {
-  background-color: var(--tag-search-hints-background-selected);
+  background-color: var(--tag-input-autocomplete-background-selected);
   color: var(--tag-search-text);
 
   text-shadow:
@@ -141,4 +136,8 @@
   font-size: 0.8rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+}
+
+.tag-search-hint-active .tag-search-hint-occurrences {
+  color:whitesmoke;
 }

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import './Pagginator.css';
 import { useEffect } from "react";
+import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
 
 type PagginatorProps = {
     currentPage: number;
@@ -135,17 +136,11 @@ function usePagginatorKeyboardNavigation(
         const handleKeyDown = (event: KeyboardEvent) => {
             const target = event.target as HTMLElement;
 
-            if (
-                target.tagName === "INPUT" ||
-                target.tagName === "TEXTAREA" ||
-                target.tagName === "SELECT" ||
-                target.isContentEditable
-            ) {
-                return;
+            if (isInputElement(target) || isSpecialCombination(event)) {
+              return;
             }
 
             let page: number | undefined;
-
             switch (event.code) {
                 case "ArrowLeft":
                 case "KeyA":

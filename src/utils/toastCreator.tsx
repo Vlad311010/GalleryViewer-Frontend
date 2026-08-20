@@ -22,12 +22,17 @@ export function toastInfo(text: string) {
         </div>);    
 }
 
-export function toastPromise<T>(promise:Promise<T>, onSuccess : ValueOrFunction<Renderable, T>, onError : ValueOrFunction<Renderable, T>) {
-    toast.promise(promise,
-      {
-        loading: 'Loading',
-        success: onSuccess,
-        error: onError,
-      }
-    )
+// export function toastPromise<T>(promise:Promise<T>, onSuccess : ValueOrFunction<Renderable, T>, onError : ValueOrFunction<Renderable, T>) {
+export function toastPromise<T>(promise: Promise<T>, onSuccess: (data: T) => void, onError: (err: unknown) => void) {
+    toast.promise(promise, {
+      loading: 'Loading',
+      success: (data) => {
+        onSuccess(data);
+        return '';
+      },
+      error: (err) => {
+        onError(err);
+        return '';
+      },
+    });
 }

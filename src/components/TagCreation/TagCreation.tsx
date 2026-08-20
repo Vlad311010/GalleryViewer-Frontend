@@ -5,7 +5,7 @@ import "@/utils/stringExtensions";
 
 import { toastError, toastPromise, toastSuccess } from "@/utils/toastCreator";
 import { tagCreate } from "@/contract/tags/tags";
-import type { tagCreateResponse201 } from '@api/tags/tags';
+import type { tagCreateResponse, tagCreateResponse201 } from '@api/tags/tags';
 
 import './TagCreation.css';
 import '@styles/tags.css';
@@ -28,9 +28,16 @@ export function TagCreation() {
     const body = {name:trimmedName, category};
     const responsePromise = tagCreate(body);
   
-    toastPromise(responsePromise, 
-      (data : tagCreateResponse201) => toastSuccess(`Created ${data.data.name}(${data.data.category})`),
-      (err) => toastError(`Failed to create: ${err.toString()}`)
+    toastPromise<tagCreateResponse>(
+      responsePromise,
+      (data) => {
+        if (data.status === 201) {
+          toastSuccess(
+            `Created ${data.data.name}[${data.data.category}]`
+          );
+        }
+      },
+      (err) => toastError(`Failed to create: ${String(err)}`)
     );
   
     setName("");
@@ -68,8 +75,8 @@ export function TagCreation() {
             {TagCategory.source.capitalize()}
           </option>
 
-          <option className={`tag-type ${toCssClass(TagCategory.description)}`} value={TagCategory.description}>
-            {TagCategory.description.capitalize()}
+          <option className={`tag-type ${toCssClass(TagCategory.general)}`} value={TagCategory.general}>
+            {TagCategory.general.capitalize()}
           </option>
           
         </select>

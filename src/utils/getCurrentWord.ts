@@ -11,8 +11,16 @@ export function getCurrentWord(
   value: string,
   cursorPosition: number,
 ): CurrentWord {
-  let start = cursorPosition;
+  if (!value) {
+    return {
+      value: '',
+      start: -1,
+      end: -1,
+      hasExclusionPrefix: false
+    }
+  }
 
+  let start = cursorPosition;
   while (start > 0 && value[start - 1] !== " ") {
     start--;
   }

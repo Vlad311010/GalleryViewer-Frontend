@@ -6,6 +6,7 @@ import { APP_CONFIG } from "@/config";
 
 import './ItemsGrid.css'
 import { useEffect } from 'react';
+import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
 
 type ItemsGridProps = {
   items: DisplayItemResponseModel[];
@@ -49,13 +50,8 @@ function useScrollKeyboardNavigation() {
             const target = event.target as HTMLElement;
 
             // Don't hijack keyboard input
-            if (
-                target.tagName === "INPUT" ||
-                target.tagName === "TEXTAREA" ||
-                target.tagName === "SELECT" ||
-                target.isContentEditable
-            ) {
-                return;
+            if (isInputElement(target) || isSpecialCombination(event)) {
+              return;
             }
 
             switch (event.code) {

@@ -8,7 +8,9 @@ export default defineConfig({
       schemas: './src/contract/model',
       client: 'react-query',
       httpClient: 'fetch',
-      baseUrl: 'https://localhost:7043',
+      baseUrl: {
+        runtime: 'import.meta.env.VITE_API_URL',
+      },
       mock: false
     },  
     input: {

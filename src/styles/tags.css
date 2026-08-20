@@ -10,6 +10,9 @@
 
   --text-h: #d2d1d1;
   --text-count: #e8e8e8;
+
+  --tag-input-autocomplete-background: rgba(29, 26, 34, 0.85);
+  --tag-input-autocomplete-background-selected: rgba(101, 66, 23, 0.7);
 }
 
 
@@ -18,17 +21,17 @@
 }
 
 .tag-type.author-tag {
-  color: rgb(164, 32, 12);
+  color: rgb(193, 38, 14);
 }
 
 .tag-type.character-tag {
   color: rgb(0, 178, 0);
 }
 
-.tag-type.copyright-tag {
+.tag-type.source-tag {
   color: rgb(184, 0, 184);
 }
 
-.tag-type.description-tag {
-  color: rgb(126, 198, 207);
+.tag-type.general-tag {
+  color: rgb(225, 225, 225);
 }

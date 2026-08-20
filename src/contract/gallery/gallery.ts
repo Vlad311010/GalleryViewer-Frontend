@@ -60,7 +60,7 @@ export const getGalleriesUrl = () => {
 
 
 
-  return `https://localhost:7043/api/Gallery`
+  return `${import.meta.env.VITE_API_URL}/api/Gallery`
 }
 
 export const galleries = async ( options?: RequestInit): Promise<galleriesResponse> => {
@@ -87,7 +87,7 @@ export const galleries = async ( options?: RequestInit): Promise<galleriesRespon
 
 export const getGalleriesQueryKey = () => {
     return [
-    `https://localhost:7043/api/Gallery`
+    `${import.meta.env.VITE_API_URL}/api/Gallery`
     ] as const;
     }
 
@@ -180,7 +180,7 @@ export const getGalleryByNameUrl = (name: string,) => {
 
 
 
-  return `https://localhost:7043/api/Gallery/${name}`
+  return `${import.meta.env.VITE_API_URL}/api/Gallery/${name}`
 }
 
 export const galleryByName = async (name: string, options?: RequestInit): Promise<galleryByNameResponse> => {
@@ -207,7 +207,7 @@ export const galleryByName = async (name: string, options?: RequestInit): Promis
 
 export const getGalleryByNameQueryKey = (name: string,) => {
     return [
-    `https://localhost:7043/api/Gallery/${name}`
+    `${import.meta.env.VITE_API_URL}/api/Gallery/${name}`
     ] as const;
     }
 

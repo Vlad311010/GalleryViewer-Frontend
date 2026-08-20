@@ -1,3 +1,10 @@
+:root {
+  --asset-border: #7000b6;
+  --group-border: rgb(2, 150, 2);
+
+  --asset-border-edit-mode: #99abb0;
+}
+
 .item-asset,
 .item-group {
   width: 100%;
@@ -12,11 +19,12 @@
 }
 
 .item-asset {
-  border-color: var(--purple);
+  border-color: var(--asset-border);
 }
 
+
 .item-group {
-  border-color: var(--gallery-folder-border);
+  border-color: var(--group-border);
 }
 
 .gallery-item {
@@ -29,3 +37,23 @@
   user-select: none;
 }
 
+.edit-mode-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 5px 8px;
+
+  background: rgba(20, 18, 24, 0.65);
+  color: #eee7f8;
+
+  font-size: 0.8rem;
+  line-height: 1.2;
+
+  pointer-events: none;
+}
+
+.gallery-item-preview {
+  position: relative;
+}

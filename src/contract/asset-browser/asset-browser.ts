@@ -76,7 +76,7 @@ export const getListItemsUrl = (params?: ListItemsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://localhost:7043/api/AssetBrowser?${stringifiedParams}` : `https://localhost:7043/api/AssetBrowser`
+  return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/AssetBrowser?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/AssetBrowser`
 }
 
 export const listItems = async (params?: ListItemsParams, options?: RequestInit): Promise<listItemsResponse> => {
@@ -103,7 +103,7 @@ export const listItems = async (params?: ListItemsParams, options?: RequestInit)
 
 export const getListItemsQueryKey = (params?: ListItemsParams,) => {
     return [
-    `https://localhost:7043/api/AssetBrowser`, ...(params ? [params] : [])
+    `${import.meta.env.VITE_API_URL}/api/AssetBrowser`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -197,7 +197,7 @@ export const getListGroupUrl = (groupId: number | string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://localhost:7043/api/AssetBrowser/group/${groupId}?${stringifiedParams}` : `https://localhost:7043/api/AssetBrowser/group/${groupId}`
+  return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/AssetBrowser/group/${groupId}?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/AssetBrowser/group/${groupId}`
 }
 
 export const listGroup = async (groupId: number | string,
@@ -226,7 +226,7 @@ export const listGroup = async (groupId: number | string,
 export const getListGroupQueryKey = (groupId: number | string,
     params?: ListGroupParams,) => {
     return [
-    `https://localhost:7043/api/AssetBrowser/group/${groupId}`, ...(params ? [params] : [])
+    `${import.meta.env.VITE_API_URL}/api/AssetBrowser/group/${groupId}`, ...(params ? [params] : [])
     ] as const;
     }
 

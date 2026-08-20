@@ -55,7 +55,7 @@ export const getAssetUrl = (id: number | string,) => {
 
 
 
-  return `https://localhost:7043/api/Media/${id}`
+  return `${import.meta.env.VITE_API_URL}/api/Media/${id}`
 }
 
 export const asset = async (id: number | string, options?: RequestInit): Promise<assetResponse> => {
@@ -81,7 +81,7 @@ export const asset = async (id: number | string, options?: RequestInit): Promise
 
 export const getAssetQueryKey = (id: number | string,) => {
     return [
-    `https://localhost:7043/api/Media/${id}`
+    `${import.meta.env.VITE_API_URL}/api/Media/${id}`
     ] as const;
     }
 
@@ -167,7 +167,7 @@ export const getAssetPreviewUrl = (id: number | string,) => {
 
 
 
-  return `https://localhost:7043/api/Media/asset/preview/${id}`
+  return `${import.meta.env.VITE_API_URL}/api/Media/asset/preview/${id}`
 }
 
 export const assetPreview = async (id: number | string, options?: RequestInit): Promise<assetPreviewResponse> => {
@@ -193,7 +193,7 @@ export const assetPreview = async (id: number | string, options?: RequestInit): 
 
 export const getAssetPreviewQueryKey = (id: number | string,) => {
     return [
-    `https://localhost:7043/api/Media/asset/preview/${id}`
+    `${import.meta.env.VITE_API_URL}/api/Media/asset/preview/${id}`
     ] as const;
     }
 
@@ -279,7 +279,7 @@ export const getGroupPreviewUrl = (id: number | string,) => {
 
 
 
-  return `https://localhost:7043/api/Media/group/preview/${id}`
+  return `${import.meta.env.VITE_API_URL}/api/Media/group/preview/${id}`
 }
 
 export const groupPreview = async (id: number | string, options?: RequestInit): Promise<groupPreviewResponse> => {
@@ -305,7 +305,7 @@ export const groupPreview = async (id: number | string, options?: RequestInit): 
 
 export const getGroupPreviewQueryKey = (id: number | string,) => {
     return [
-    `https://localhost:7043/api/Media/group/preview/${id}`
+    `${import.meta.env.VITE_API_URL}/api/Media/group/preview/${id}`
     ] as const;
     }
 
@@ -363,6 +363,119 @@ export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGroupPreviewQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type assetMimeTypeResponse200 = {
+  data: string
+  status: 200
+}
+
+export type assetMimeTypeResponseSuccess = (assetMimeTypeResponse200) & {
+  headers: Headers;
+};
+;
+
+export type assetMimeTypeResponse = (assetMimeTypeResponseSuccess)
+
+export const getAssetMimeTypeUrl = (id: number | string,) => {
+
+
+
+
+  return `${import.meta.env.VITE_API_URL}/api/Media/asset/${id}/mime-type`
+}
+
+export const assetMimeType = async (id: number | string, options?: RequestInit): Promise<assetMimeTypeResponse> => {
+
+  const res = await fetch(getAssetMimeTypeUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: assetMimeTypeResponse['data'] = body !== null ? body : ''
+  return { data, status: res.status, headers: res.headers } as assetMimeTypeResponse
+}
+
+
+
+
+
+export const getAssetMimeTypeQueryKey = (id: number | string,) => {
+    return [
+    `${import.meta.env.VITE_API_URL}/api/Media/asset/${id}/mime-type`
+    ] as const;
+    }
+
+
+export const getAssetMimeTypeQueryOptions = <TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(id: number | string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAssetMimeTypeQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetMimeType>>> = ({ signal }) => assetMimeType(id, { signal, ...fetchOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AssetMimeTypeQueryResult = NonNullable<Awaited<ReturnType<typeof assetMimeType>>>
+export type AssetMimeTypeQueryError = unknown
+
+
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+ id: number | string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof assetMimeType>>,
+          TError,
+          Awaited<ReturnType<typeof assetMimeType>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+ id: number | string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof assetMimeType>>,
+          TError,
+          Awaited<ReturnType<typeof assetMimeType>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+ id: number | string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+ id: number | string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getAssetMimeTypeQueryOptions(id,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

@@ -5,6 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './addAssetTagsRequestModel';
+export * from './assetTagsResponseModel';
+export * from './assetTagsResponseModelTags';
 export * from './displayItemResponseModel';
 export * from './displayItemType';
 export * from './entityTagHeaderValue';
@@ -24,5 +27,6 @@ export * from './stringSegment';
 export * from './tagCreateRequestModel';
 export * from './tagCreateResponseModel';
 export * from './tagDto';
+export * from './tagDtoInfo';
 export * from './tagInfoResponseModel';
 export * from './tagSearchResponseModel';

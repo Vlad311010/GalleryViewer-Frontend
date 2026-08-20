@@ -1,0 +1,150 @@
+:root {
+  /* Single tag input */
+  --tag-input-text: #fff;
+  --tag-input-placeholder: rgba(227, 214, 240, 0.45);
+
+  --tag-input-border: #7347d9;
+  --tag-input-border-hover: #8c27ff;
+
+  --tag-input-background-focus: #4d1a87;
+
+  --tag-input-purple-rgb: 139, 92, 246;
+  --tag-input-glow: rgba(var(--tag-input-purple-rgb), 0.2);
+  --tag-input-glow-hover: rgba(var(--tag-input-purple-rgb), 0.4);
+  --tag-input-glow-strong: rgba(var(--tag-input-purple-rgb), 0.18);
+
+  --tag-input-text-glow: rgba(192, 132, 252, 0.55);
+  --tag-input-text-glow-hover: rgba(216, 180, 254, 0.8);
+
+  --tag-input-text-occurrences: rgb(153, 150, 150);
+}
+
+.tag-input-container {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.tag-input {
+  width: 100%;
+  height: 21px;
+  box-sizing: border-box;
+  padding: 0 0.55rem;
+
+  background: transparent;
+  color: var(--tag-input-text);
+
+  border: 1px solid var(--tag-input-border);
+  border-radius: 3px;
+
+  font: inherit;
+  font-size: 0.65rem;
+  outline: none;
+
+  box-shadow:
+    0 0 6px var(--tag-input-glow),
+    inset 0 0 6px rgba(var(--tag-input-purple-rgb), 0.06);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.tag-input::placeholder {
+  color: var(--tag-input-placeholder);
+}
+
+.tag-input:hover {
+  border-color: var(--tag-input-border-hover);
+}
+
+.tag-input:focus {
+  border-color: var(--tag-input-border-hover);
+  background: var(--tag-input-background-focus);
+
+  box-shadow:
+    0 0 8px var(--tag-input-glow-hover),
+    0 0 14px var(--tag-input-glow-strong);
+}
+
+.tag-input-hints {
+  position: absolute;
+  top: calc(100%);
+  width: 100%;
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  background: var(--tag-input-autocomplete-background);
+  color: var(--tag-input-text);
+
+  border: 1px solid var(--tag-input-border);
+  border-radius: 3px;
+
+  box-shadow:
+    0 0 6px var(--tag-input-glow),
+    0 0 14px var(--tag-input-glow-strong),
+    inset 0 0 6px rgba(var(--tag-input-purple-rgb), 0.06);
+
+  max-height: 180px;
+  overflow-y: hidden;
+
+  z-index: 1000;
+}
+
+.tag-input-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 12px;
+  padding: 2px 8px;
+
+  color: var(--tag-input-text);
+  font-size: 0.65rem;
+  text-align: left;
+
+  cursor: pointer;
+
+  text-shadow:
+    0 0 5px var(--tag-input-text-glow);
+
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    text-shadow 160ms ease;
+}
+
+.tag-input-hint:hover,
+.tag-input-hint-active {
+  background-color: var(--tag-input-autocomplete-background-selected);
+  color: var(--tag-input-text);
+
+  text-shadow:
+    0 0 7px var(--tag-input-text-glow-hover);
+}
+
+.tag-input-hint-name {
+  min-width: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-input-hint-occurrences {
+  flex: 0 0 auto;
+  margin-left: 0.5rem;
+
+  color: var(--tag-input-text-occurrences);
+  font-size: 0.55rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-input-hint-active .tag-input-hint-occurrences {
+  color:whitesmoke;
+}

@@ -1,3 +1,9 @@
+:root {
+  --purple: #7000b6;
+  --pagination-active: #670c44;
+  --pagination-hover: #a61b71;
+}
+
 .center {
   text-align: center;
   margin: inherit;

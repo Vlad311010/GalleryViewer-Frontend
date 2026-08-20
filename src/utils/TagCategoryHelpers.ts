@@ -28,8 +28,8 @@ export function toCssClass(value: TagCategory | undefined): string {
     case TagCategory.source:
       return 'source-tag';
 
-    case TagCategory.description:
-      return 'description-tag';
+    case TagCategory.general:
+      return 'general-tag';
 
     default:
       return '';
