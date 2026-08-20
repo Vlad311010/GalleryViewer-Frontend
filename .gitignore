@@ -61,3 +61,4 @@ chrome-user-data
 /.worktrees
 .claude/*.local.*
 .claude/worktrees
+scripts/publish.ps1
