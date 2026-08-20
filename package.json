@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "generate-api": "set NODE_EXTRA_CA_CERTS=C:\\Users\\Vlad\\Documents\\TO_DEL_ASP_NET_CER.pem && npx orval --config .\\orval.config.ts"
+    "generate-api": "set NODE_EXTRA_CA_CERTS=C:\\Users\\Vlad\\Documents\\TO_DEL_ASP_NET_CER.pem && npx orval --config .\\orval.config.ts",
+    "publish": "npm run build && powershell -ExecutionPolicy Bypass -File .\\scripts\\publish.ps1"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.4",
