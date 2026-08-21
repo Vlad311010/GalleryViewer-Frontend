@@ -1,4 +1,4 @@
-import { getAssetPreviewUrl, getGroupPreviewUrl, getAssetUrl  } from '@api/media/media';
+import { getAssetPreviewUrl, getGroupPreviewUrl, getAssetUrl, useAssetMimeType  } from '@api/media/media';
 import type { DisplayItemResponseModel } from '@api/model/displayItemResponseModel';
 import { DisplayItemType } from "@api/model/displayItemType";
 
@@ -13,10 +13,19 @@ type AssetPreviewProps = {
 export function AssetPreview({ item }: AssetPreviewProps) {
   const { isEditMode } = useViewMode();
 
+  const { data: assetMimeTypeResponse, isError } = useAssetMimeType(item.id);
+  let isVideo : boolean;
+  if (isError || !assetMimeTypeResponse) {
+    isVideo = false;
+  }  
+  else { 
+    isVideo = assetMimeTypeResponse.data.startsWith("video"); 
+  }
+  
+  
   let renderElement;
   if (item.type === DisplayItemType.Asset) {
-    
-    renderElement = ConstructAssetRef(item.id.toString(), isEditMode);
+    renderElement = ConstructAssetRef(item.id.toString(), isEditMode, isVideo);
   }
   else if (item.type === DisplayItemType.Group) {
     renderElement = ConstructGroupRef(item.id.toString());
@@ -26,7 +35,7 @@ export function AssetPreview({ item }: AssetPreviewProps) {
   return renderElement;
 }
 
-function ConstructAssetRef(id:string, isEditMode: boolean) {
+function ConstructAssetRef(id:string, isEditMode: boolean, isVideo: boolean) {
   const previewUrl = getAssetPreviewUrl(id);
   const itemLink = getAssetUrl(id);
 
@@ -55,7 +64,7 @@ function ConstructAssetRef(id:string, isEditMode: boolean) {
       >
         <img
           src={previewUrl}
-          className="item-asset"
+          className={`item-asset ${isVideo && ("video")}`}
           alt=""
         />
       </a>

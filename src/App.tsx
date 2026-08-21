@@ -12,8 +12,9 @@ import { TagsView } from "@comp/TagsView/TagsView";
 import { TagCreation } from "@comp/TagCreation/TagCreation";
 import { Toaster } from "react-hot-toast";
 import { SearchQueryState } from "@comp/SearchQueryState/SearchQueryState";
-import { Asset } from "@comp/Asset/Asset";
+import { AssetDetails } from "@/components/AssetDetails/AssetDetails";
 import { EditModeProvider } from "@comp/ViewModeState/ViewModeState";
+import { AssetView } from "./components/AssetView/AssetView";
 
 
 function App() {
@@ -53,7 +54,17 @@ function App() {
               path="/gallery/:galleryName/asset/:identifier"
               element={
                 <RoutingWrapper<number>
-                  Component={Asset}
+                  Component={AssetDetails}
+                  parseIdentifier={(id) => parseInt(id)}
+                />
+              }
+            />
+
+            <Route
+              path="/gallery/:galleryName/asset/:identifier/view"
+              element={
+                <RoutingWrapper<number>
+                  Component={AssetView}
                   parseIdentifier={(id) => parseInt(id)}
                 />
               }

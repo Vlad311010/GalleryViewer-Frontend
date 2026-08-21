@@ -1,6 +1,7 @@
 :root {
   --asset-border: #7000b6;
   --group-border: rgb(2, 150, 2);
+  --asset-video-outline: #7000b6;
 
   --asset-border-edit-mode: #99abb0;
 }
@@ -20,6 +21,12 @@
 
 .item-asset {
   border-color: var(--asset-border);
+}
+
+.item-asset.video {
+  border-style: dashed;
+  border-color: var(--asset-video-outline);
+  
 }
 
 

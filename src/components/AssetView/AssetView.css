@@ -1,0 +1,18 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: auto;
+}
+
+img {
+  display: block;
+  margin: auto;
+}
+
+.asset-view {
+  background: rgb(14, 14, 14);
+}

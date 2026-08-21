@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TagSelect } from '@comp/TagSelect/TagSelect';
 
-import './Asset.css';
+import './AssetDetails.css';
 import { TagCategory } from '@/enums/TagCategory';
 import { toCssClass } from '@/utils/tagCategoryHelpers';
 import {  getAssetTagsQueryKey, useAddAssetTags, useAssetTags, useRemoveAssetTag } from '@/contract/assets/assets';
@@ -12,11 +12,11 @@ import { getAssetPreviewUrl, getAssetUrl, useAssetMimeType } from '@/contract/me
 import { useViewMode } from '@comp/ViewModeState/ViewModeState';
 
 
-interface AssetProps {
+interface AssetDetailsProps {
   identifier: number
 }
 
-export function Asset({ identifier } : AssetProps ) {
+export function AssetDetails({ identifier } : AssetDetailsProps ) {
   const categoriesOrder = [TagCategory.author, TagCategory.source, TagCategory.character, TagCategory.general];
   
   const queryClient = useQueryClient();
