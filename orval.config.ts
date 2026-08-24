@@ -14,7 +14,7 @@ export default defineConfig({
       mock: false
     },  
     input: {
-      target: 'https://localhost:7043/openapi/v1.json',
+      target: 'https://localhost:7043/swagger/v1/swagger.json',
     },
   },
 });

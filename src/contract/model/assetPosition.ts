@@ -5,7 +5,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ListTagsParams = {
-Skip?: number;
-Take?: number;
-};
+export interface AssetPosition {
+  id: number;
+  position: number;
+  isCover: boolean;
+}
