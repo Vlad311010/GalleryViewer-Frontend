@@ -6,6 +6,7 @@ import { APP_CONFIG } from "@/config";
 import { ItemsGrid } from '@comp/ItemsGrid/ItemsGrid';
 import { useContext } from 'react';
 import { SearchContext } from '@comp/SearchQueryState/SearchQueryState';
+import { useGroupDetails } from '@/contract/groups/groups';
 
 
 type GroupProps = {
@@ -21,17 +22,26 @@ export function Group({ identifier } : GroupProps ) {
   }
   
   const { data, isLoading, error } = useListGroup(identifier, filterParams);
+  const { data: groupDetails } = useGroupDetails(identifier);
 
-  if (!data) {
+  console.log(groupDetails);
+  if (!data || !groupDetails) {
     return <h3>Loading</h3>;
   }
 
   return (<>
     
     <ItemsGrid 
-      items = {data.data.items}
+      items = {data.data.items ?? []}
       page = {page}
       totalPages = {data.data.pagesCount as number}
+      groupData = {{
+        id: groupDetails.data.id,
+        title: groupDetails.data.title,
+        assetsCount: groupDetails.data.assetsCount,
+        coverAssetPosition: groupDetails.data.coverAssetPosition,
+        assetPositions: groupDetails.data.positions ?? []
+      }}
     /> 
 
   </>);

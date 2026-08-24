@@ -8,15 +8,27 @@ import './ItemsGrid.css'
 import { useEffect, useRef } from 'react';
 import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
 import { INPUTS } from "@/Constants";
+import type { AssetPosition } from "@/contract/model/assetPosition";
+
+
+interface GroupData {
+  id: number,
+  title?: string | null;
+  assetsCount: number 
+  assetPositions: AssetPosition[],  
+  coverAssetPosition: number;
+}
 
 type ItemsGridProps = {
   items: DisplayItemResponseModel[];
   
   page: number;
   totalPages: number;
+
+  groupData?: GroupData;
 };
 
-export function ItemsGrid({ items, page, totalPages } : ItemsGridProps) {
+export function ItemsGrid({ items, page, totalPages, groupData } : ItemsGridProps) {
   const mousePos = useRef({ x: 0, y: 0 });
   useScrollKeyboardNavigation(mousePos);
 
@@ -30,6 +42,7 @@ export function ItemsGrid({ items, page, totalPages } : ItemsGridProps) {
         <AssetPreview
           key={`${item.type}-${item.id}`}
           item={item}
+          assetPosition={groupData ? getAssetPosition(groupData.assetPositions, Number(item.id)) : undefined}
         />
       ))}
     </div>
@@ -86,7 +99,7 @@ function useScrollKeyboardNavigation(mousePos: React.RefObject<{x: number; y: nu
                     break;
 
                 case INPUTS.FOLLOW_PREVIEW_LINK:
-                  OpenImgUnderMouse(mousePos.current.x, mousePos.current.y);
+                  openImgUnderMouse(mousePos.current.x, mousePos.current.y);
                   break;
             }
         };
@@ -108,7 +121,7 @@ function useScrollKeyboardNavigation(mousePos: React.RefObject<{x: number; y: nu
     
 }
 
-function OpenImgUnderMouse(x: number, y: number) {
+function openImgUnderMouse(x: number, y: number) {
   const imgPreview = document
     .elementsFromPoint(x, y)
     .find(element => element.classList.contains("gallery-item"));
@@ -120,4 +133,13 @@ function OpenImgUnderMouse(x: number, y: number) {
       window.open(imgSrc);
     }
   }
+}
+
+function getAssetPosition(assetsData: AssetPosition[], assetId: number) {
+  const positionData : AssetPosition | undefined = assetsData.find(x => x.id === assetId)
+  if (!positionData) {
+    throw new Error("Not found");
+  }
+
+  return positionData;
 }

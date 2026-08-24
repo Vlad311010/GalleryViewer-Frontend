@@ -5,12 +5,14 @@ import { DisplayItemType } from "@api/model/displayItemType";
 import './AssetPreview.css'
 import { Link } from 'react-router-dom';
 import { useViewMode } from '../ViewModeState/ViewModeState';
+import type { AssetPosition } from '@/contract/model';
 
 type AssetPreviewProps = {
   item: DisplayItemResponseModel;
+  assetPosition?: AssetPosition;
 };
 
-export function AssetPreview({ item }: AssetPreviewProps) {
+export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
   const { isEditMode } = useViewMode();
 
   const { data: assetMimeTypeResponse, isError } = useAssetMimeType(item.id);
@@ -23,19 +25,41 @@ export function AssetPreview({ item }: AssetPreviewProps) {
   }
   
   
-  let renderElement;
+  let imageElement;
   if (item.type === DisplayItemType.Asset) {
-    renderElement = ConstructAssetRef(item.id.toString(), isEditMode, isVideo);
+    imageElement = ConstructAssetRef(item.id, isEditMode, isVideo);
   }
   else if (item.type === DisplayItemType.Group) {
-    renderElement = ConstructGroupRef(item.id.toString());
+    imageElement = ConstructGroupRef(item.id);
   }
 
 
-  return renderElement;
+  return (<div className="gallery-item">
+    <figure className="gallery-item-image">
+      {imageElement}
+    </figure> 
+    {isEditMode && assetPosition && (
+      <div className="gallery-item-editor">
+        <input
+          type="number"
+          value={assetPosition.position}
+          aria-label="Position"
+        />
+
+        <label>
+          <input readOnly
+            type="checkbox"
+            checked={assetPosition.isCover}
+            aria-label="Cover"
+          />
+          Cover
+        </label>
+      </div>
+    )}
+  </div>);
 }
 
-function ConstructAssetRef(id:string, isEditMode: boolean, isVideo: boolean) {
+function ConstructAssetRef(id:number, isEditMode: boolean, isVideo: boolean) {
   const previewUrl = getAssetPreviewUrl(id);
   const itemLink = getAssetUrl(id);
 
@@ -70,28 +94,22 @@ function ConstructAssetRef(id:string, isEditMode: boolean, isVideo: boolean) {
       </a>
     )
 
-  return (
-    <figure className="gallery-item">
-      {element}
-    </figure> 
-  )
+  return element;
 }
 
-function ConstructGroupRef(id: string) {
+function ConstructGroupRef(id: number) {
   const previewUrl = getGroupPreviewUrl(id);
   return (
-    <figure className="gallery-item">
-      <Link
-        to={`group/${id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src={previewUrl}
-          className="item-group"
-          alt=""
-        />
-      </Link>
-    </figure> 
+    <Link
+      to={`group/${id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={previewUrl}
+        className="item-group"
+        alt=""
+      />
+    </Link>
   )
 }

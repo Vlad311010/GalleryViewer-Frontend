@@ -4,6 +4,7 @@ import { getAssetUrl } from '@/contract/media/media';
 import './AssetView.css';
 import { isInputElement, isSpecialCombination } from '@/utils/inputEventUtils';
 import { INPUTS } from '@/Constants';
+import { useAssetInfo } from '@/contract/assets/assets';
 
 type AssetViewProps = {
   identifier: number;
@@ -11,26 +12,27 @@ type AssetViewProps = {
 
 export function AssetView({ identifier }: AssetViewProps) {
   const [zoomed, setZoomed] = useState(false);
+  // const { data } = useAssetInfo(identifier);
   const [size, setSize] = useState({
     width: 0,
     height: 0,
   });
 
-const getViewportSize = () => ({
-  width: window.visualViewport?.width ?? window.innerWidth,
-  height: window.visualViewport?.height ?? window.innerHeight,
-});
+  const getViewportSize = () => ({
+    width: window.visualViewport?.width ?? window.innerWidth,
+    height: window.visualViewport?.height ?? window.innerHeight,
+  });
 
-const getFitSize = (img: HTMLImageElement) => {
-  const viewport = getViewportSize();
+  const getFitSize = (img: HTMLImageElement) => {
+    const viewport = getViewportSize();
 
-  const scale = Math.min(
-    viewport.width / img.naturalWidth,
-    viewport.height / img.naturalHeight,
-    1,
-  );
+    const scale = Math.min(
+      viewport.width / img.naturalWidth,
+      viewport.height / img.naturalHeight,
+      1,
+    );
 
-  return {
+    return {
       width: Math.round(img.naturalWidth * scale),
       height: Math.round(img.naturalHeight * scale),
     };
@@ -85,7 +87,7 @@ const getFitSize = (img: HTMLImageElement) => {
       case INPUTS.NEXT_PAGE_ARROWS:
       case INPUTS.NEXT_PAGE_WASD:
         event.preventDefault();
-        
+
         break;
       case INPUTS.PREV_PAGE_ARROWS:
       case INPUTS.PREV_PAGE_WASD:
