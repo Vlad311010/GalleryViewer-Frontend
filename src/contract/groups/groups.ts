@@ -23,7 +23,10 @@ import type {
   AssetGroupResponseModel
 } from '../model';
 
+import { customClient } from '../../client/customClient';
 
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
@@ -42,18 +45,6 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export type groupDetailsResponse200 = {
-  data: AssetGroupResponseModel
-  status: 200
-}
-
-export type groupDetailsResponseSuccess = (groupDetailsResponse200) & {
-  headers: Headers;
-};
-;
-
-export type groupDetailsResponse = (groupDetailsResponseSuccess)
-
 export const getGroupDetailsUrl = (id: number,) => {
 
 
@@ -62,23 +53,16 @@ export const getGroupDetailsUrl = (id: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Groups/${id}`
 }
 
-export const groupDetails = async (id: number, options?: RequestInit): Promise<groupDetailsResponse> => {
+export const groupDetails = async (id: number, options?: Parameters<typeof customClient>[1]): Promise<AssetGroupResponseModel> => {
 
-  const res = await fetch(getGroupDetailsUrl(id),
+  return customClient<AssetGroupResponseModel>(getGroupDetailsUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: groupDetailsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as groupDetailsResponse
-}
+);}
 
 
 
@@ -91,16 +75,16 @@ export const getGroupDetailsQueryKey = (id: number,) => {
     }
 
 
-export const getGroupDetailsQueryOptions = <TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, fetch?: RequestInit}
+export const getGroupDetailsQueryOptions = <TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGroupDetailsQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof groupDetails>>> = ({ signal }) => groupDetails(id, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof groupDetails>>> = ({ signal }) => groupDetails(id, { signal, ...requestOptions });
 
 
 
@@ -120,7 +104,7 @@ export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>
           TError,
           Awaited<ReturnType<typeof groupDetails>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
@@ -130,16 +114,16 @@ export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>
           TError,
           Awaited<ReturnType<typeof groupDetails>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

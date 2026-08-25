@@ -1,26 +1,25 @@
 import type { GalleryResponseModel } from '@api/model';
 import { useGalleries } from '@api/gallery/gallery'
-import { useAsset, getAssetUrl } from '@api/media/media'
+import { getAssetUrl } from '@api/media/media'
 import { Link } from 'react-router-dom';
 
 import './GallerySelector.css'
 
-
 export function GallerySelector() {
-  const { data, isLoading, error } = useGalleries();
-
-  if (!data) {
-    return <h3>Loading data</h3>;
-  }
+  const response = useGalleries();
+  
+  const data = response.data;
 
   return (
     <div className="nav-page-container">
         <div className="galleries-grid">
-           {data.data.map((gallery: GalleryResponseModel) => (
-              <GalleryThumbnail
-                key={gallery.id}
-                galleryData={gallery}
-              />
+          {data && 
+            (data.map((gallery: GalleryResponseModel) => (
+                <GalleryThumbnail
+                  key={gallery.id}
+                  galleryName={gallery.name ?? ""}
+                  coverAssetId={gallery.coverAssetId}
+                />)
            ))}
         </div>
     </div>
@@ -29,44 +28,29 @@ export function GallerySelector() {
 
 
 type GalleryThumbnailProps = {
-  galleryData: GalleryResponseModel
+  galleryName: string;
+  coverAssetId: number | null | undefined;
 }
 
-export function GalleryThumbnail({ galleryData } : GalleryThumbnailProps) {
-  const { data, isLoading, error } = useAsset(galleryData.coverAssetId!, {
-    query: {
-      enabled: galleryData.coverAssetId != null,
-    },
-  });
-
-  const assetUrl = getAssetUrl(galleryData.coverAssetId!);
-
-  if (galleryData.coverAssetId == null) {
-    return null;
+export function GalleryThumbnail({ galleryName, coverAssetId } : GalleryThumbnailProps) {
+  let assetUrl;
+  if (coverAssetId) {
+    assetUrl = getAssetUrl(coverAssetId);
   }
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
-
-  if (error) {
-    return <div>Failed to load cover</div>;
-  }
-
-  if (!assetUrl) {
-    return <div>Failed(NONE) to load cover</div>; // load placeholder
+  else {
+    assetUrl = "/placeholder";
   }
 
   return (
       <Link
-        to={`gallery/${galleryData.name}?page=1`}
+        to={`gallery/${galleryName}?page=1`}
         className="gallery-thumbnail"
         style={{
           background: `url(${assetUrl}) no-repeat center center`,
           backgroundSize: "cover",
         }}
       >
-        {galleryData.name}
+        {galleryName}
       </Link>
   )
 }

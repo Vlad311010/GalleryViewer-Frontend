@@ -1,19 +1,19 @@
 import { TagCategory } from "@/enums/TagCategory";
 
 
-export function toTagCategory(value: string | undefined): TagCategory | undefined {
+export function toTagCategory(value: string | null): TagCategory | null {
   if (!value)
-    return undefined;
+    return null;
 
   value = value.toLowerCase();
   if (Object.values(TagCategory).includes(value as TagCategory)) {
     return value as TagCategory;
   }
 
-  return undefined;
+  return null;
 }
 
-export function toCssClass(value: TagCategory | undefined): string {
+export function toCssClass(value: TagCategory | null): string {
   if (!value) {
     return '';
   }

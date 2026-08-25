@@ -11,6 +11,15 @@ export default defineConfig({
       baseUrl: {
         runtime: 'import.meta.env.VITE_API_URL',
       },
+      override: {
+        mutator: {
+          path: './src/client/customClient.ts',
+          name: 'customClient',
+        },
+        fetch: {
+          includeHttpResponseReturnType: false,
+        },
+      },
       mock: false
     },  
     input: {

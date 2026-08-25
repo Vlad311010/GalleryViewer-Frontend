@@ -33,7 +33,10 @@ import type {
   TagSearchResponseModel
 } from '../model';
 
+import { customClient } from '../../client/customClient';
 
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
@@ -52,18 +55,6 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export type searchTagsResponse200 = {
-  data: TagSearchResponseModel[]
-  status: 200
-}
-
-export type searchTagsResponseSuccess = (searchTagsResponse200) & {
-  headers: Headers;
-};
-;
-
-export type searchTagsResponse = (searchTagsResponseSuccess)
-
 export const getSearchTagsUrl = (params?: SearchTagsParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -79,23 +70,16 @@ export const getSearchTagsUrl = (params?: SearchTagsParams,) => {
   return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/Tags/search?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/Tags/search`
 }
 
-export const searchTags = async (params?: SearchTagsParams, options?: RequestInit): Promise<searchTagsResponse> => {
+export const searchTags = async (params?: SearchTagsParams, options?: Parameters<typeof customClient>[1]): Promise<TagSearchResponseModel[]> => {
 
-  const res = await fetch(getSearchTagsUrl(params),
+  return customClient<TagSearchResponseModel[]>(getSearchTagsUrl(params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: searchTagsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as searchTagsResponse
-}
+);}
 
 
 
@@ -108,16 +92,16 @@ export const getSearchTagsQueryKey = (params?: SearchTagsParams,) => {
     }
 
 
-export const getSearchTagsQueryOptions = <TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, fetch?: RequestInit}
+export const getSearchTagsQueryOptions = <TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getSearchTagsQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchTags>>> = ({ signal }) => searchTags(params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchTags>>> = ({ signal }) => searchTags(params, { signal, ...requestOptions });
 
 
 
@@ -137,7 +121,7 @@ export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TE
           TError,
           Awaited<ReturnType<typeof searchTags>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
@@ -147,16 +131,16 @@ export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TE
           TError,
           Awaited<ReturnType<typeof searchTags>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
- params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, fetch?: RequestInit}
+ params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TError = unknown>(
- params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, fetch?: RequestInit}
+ params?: SearchTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -171,18 +155,6 @@ export function useSearchTags<TData = Awaited<ReturnType<typeof searchTags>>, TE
 
 
 
-
-export type listTagsResponse200 = {
-  data: TagInfoResponseModelPagedData
-  status: 200
-}
-
-export type listTagsResponseSuccess = (listTagsResponse200) & {
-  headers: Headers;
-};
-;
-
-export type listTagsResponse = (listTagsResponseSuccess)
 
 export const getListTagsUrl = (params?: ListTagsParams,) => {
   const normalizedParams = new URLSearchParams();
@@ -199,23 +171,16 @@ export const getListTagsUrl = (params?: ListTagsParams,) => {
   return stringifiedParams.length > 0 ? `${import.meta.env.VITE_API_URL}/api/Tags/list?${stringifiedParams}` : `${import.meta.env.VITE_API_URL}/api/Tags/list`
 }
 
-export const listTags = async (params?: ListTagsParams, options?: RequestInit): Promise<listTagsResponse> => {
+export const listTags = async (params?: ListTagsParams, options?: Parameters<typeof customClient>[1]): Promise<TagInfoResponseModelPagedData> => {
 
-  const res = await fetch(getListTagsUrl(params),
+  return customClient<TagInfoResponseModelPagedData>(getListTagsUrl(params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: listTagsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as listTagsResponse
-}
+);}
 
 
 
@@ -228,16 +193,16 @@ export const getListTagsQueryKey = (params?: ListTagsParams,) => {
     }
 
 
-export const getListTagsQueryOptions = <TData = Awaited<ReturnType<typeof listTags>>, TError = unknown>(params?: ListTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listTags>>, TError, TData>>, fetch?: RequestInit}
+export const getListTagsQueryOptions = <TData = Awaited<ReturnType<typeof listTags>>, TError = unknown>(params?: ListTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getListTagsQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listTags>>> = ({ signal }) => listTags(params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listTags>>> = ({ signal }) => listTags(params, { signal, ...requestOptions });
 
 
 
@@ -257,7 +222,7 @@ export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError
           TError,
           Awaited<ReturnType<typeof listTags>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError = unknown>(
@@ -267,16 +232,16 @@ export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError
           TError,
           Awaited<ReturnType<typeof listTags>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError = unknown>(
- params?: ListTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listTags>>, TError, TData>>, fetch?: RequestInit}
+ params?: ListTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError = unknown>(
- params?: ListTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listTags>>, TError, TData>>, fetch?: RequestInit}
+ params?: ListTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -292,25 +257,6 @@ export function useListTags<TData = Awaited<ReturnType<typeof listTags>>, TError
 
 
 
-export type tagCreateResponse201 = {
-  data: TagCreateResponseModel
-  status: 201
-}
-
-export type tagCreateResponse400 = {
-  data: ProblemDetails
-  status: 400
-}
-
-export type tagCreateResponseSuccess = (tagCreateResponse201) & {
-  headers: Headers;
-};
-export type tagCreateResponseError = (tagCreateResponse400) & {
-  headers: Headers;
-};
-
-export type tagCreateResponse = (tagCreateResponseSuccess | tagCreateResponseError)
-
 export const getTagCreateUrl = () => {
 
 
@@ -319,38 +265,31 @@ export const getTagCreateUrl = () => {
   return `${import.meta.env.VITE_API_URL}/api/Tags`
 }
 
-export const tagCreate = async (tagCreateRequestModel?: TagCreateRequestModel, options?: RequestInit): Promise<tagCreateResponse> => {
+export const tagCreate = async (tagCreateRequestModel?: TagCreateRequestModel, options?: Parameters<typeof customClient>[1]): Promise<TagCreateResponseModel> => {
 
-  const res = await fetch(getTagCreateUrl(),
+  return customClient<TagCreateResponseModel>(getTagCreateUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(tagCreateRequestModel)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: tagCreateResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as tagCreateResponse
-}
+);}
 
 
 
 
 
 export const getTagCreateMutationOptions = <TError = ProblemDetails,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data?: TagCreateRequestModel}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data?: TagCreateRequestModel}, TContext>, request?: SecondParameter<typeof customClient>}
 ): UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data?: TagCreateRequestModel}, TContext> => {
 
 const mutationKey = ['tagCreate'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -358,7 +297,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof tagCreate>>, {data?: TagCreateRequestModel}> = (props) => {
           const {data} = props ?? {};
 
-          return  tagCreate(data,fetchOptions)
+          return  tagCreate(data,requestOptions)
         }
 
 
@@ -373,7 +312,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
     export type TagCreateMutationError = ProblemDetails
 
     export const useTagCreate = <TError = ProblemDetails,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data?: TagCreateRequestModel}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof tagCreate>>, TError,{data?: TagCreateRequestModel}, TContext>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof tagCreate>>,
         TError,

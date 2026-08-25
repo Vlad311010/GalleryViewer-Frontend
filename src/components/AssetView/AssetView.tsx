@@ -11,13 +11,6 @@ type AssetViewProps = {
 };
 
 export function AssetView({ identifier }: AssetViewProps) {
-  const [zoomed, setZoomed] = useState(false);
-  // const { data } = useAssetInfo(identifier);
-  const [size, setSize] = useState({
-    width: 0,
-    height: 0,
-  });
-
   const getViewportSize = () => ({
     width: window.visualViewport?.width ?? window.innerWidth,
     height: window.visualViewport?.height ?? window.innerHeight,
@@ -96,6 +89,13 @@ export function AssetView({ identifier }: AssetViewProps) {
 
     }
   };
+
+  const [zoomed, setZoomed] = useState(false);
+  // const { data } = useAssetInfo(identifier);
+  const [size, setSize] = useState({
+    width: 0,
+    height: 0,
+  });
 
 
   return (

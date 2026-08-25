@@ -19,7 +19,10 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
+import { customClient } from '../../client/customClient';
 
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
@@ -38,18 +41,6 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export type assetResponse200 = {
-  data: Blob
-  status: 200
-}
-
-export type assetResponseSuccess = (assetResponse200) & {
-  headers: Headers;
-};
-;
-
-export type assetResponse = (assetResponseSuccess)
-
 export const getAssetUrl = (id: number,) => {
 
 
@@ -58,22 +49,16 @@ export const getAssetUrl = (id: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Media/${id}`
 }
 
-export const asset = async (id: number, options?: RequestInit): Promise<assetResponse> => {
+export const asset = async (id: number, options?: Parameters<typeof customClient>[1]): Promise<Blob> => {
 
-  const res = await fetch(getAssetUrl(id),
+  return customClient<Blob>(getAssetUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.blob();
-  const data: assetResponse['data'] = body as assetResponse['data']
-  return { data, status: res.status, headers: res.headers } as assetResponse
-}
+);}
 
 
 
@@ -86,16 +71,16 @@ export const getAssetQueryKey = (id: number,) => {
     }
 
 
-export const getAssetQueryOptions = <TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, fetch?: RequestInit}
+export const getAssetQueryOptions = <TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getAssetQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof asset>>> = ({ signal }) => asset(id, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof asset>>> = ({ signal }) => asset(id, { signal, ...requestOptions });
 
 
 
@@ -115,7 +100,7 @@ export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unk
           TError,
           Awaited<ReturnType<typeof asset>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
@@ -125,16 +110,16 @@ export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unk
           TError,
           Awaited<ReturnType<typeof asset>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -150,18 +135,6 @@ export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unk
 
 
 
-export type assetPreviewResponse200 = {
-  data: Blob
-  status: 200
-}
-
-export type assetPreviewResponseSuccess = (assetPreviewResponse200) & {
-  headers: Headers;
-};
-;
-
-export type assetPreviewResponse = (assetPreviewResponseSuccess)
-
 export const getAssetPreviewUrl = (id: number,) => {
 
 
@@ -170,22 +143,16 @@ export const getAssetPreviewUrl = (id: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Media/asset/preview/${id}`
 }
 
-export const assetPreview = async (id: number, options?: RequestInit): Promise<assetPreviewResponse> => {
+export const assetPreview = async (id: number, options?: Parameters<typeof customClient>[1]): Promise<Blob> => {
 
-  const res = await fetch(getAssetPreviewUrl(id),
+  return customClient<Blob>(getAssetPreviewUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.blob();
-  const data: assetPreviewResponse['data'] = body as assetPreviewResponse['data']
-  return { data, status: res.status, headers: res.headers } as assetPreviewResponse
-}
+);}
 
 
 
@@ -198,16 +165,16 @@ export const getAssetPreviewQueryKey = (id: number,) => {
     }
 
 
-export const getAssetPreviewQueryOptions = <TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, fetch?: RequestInit}
+export const getAssetPreviewQueryOptions = <TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getAssetPreviewQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetPreview>>> = ({ signal }) => assetPreview(id, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetPreview>>> = ({ signal }) => assetPreview(id, { signal, ...requestOptions });
 
 
 
@@ -227,7 +194,7 @@ export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>
           TError,
           Awaited<ReturnType<typeof assetPreview>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
@@ -237,16 +204,16 @@ export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>
           TError,
           Awaited<ReturnType<typeof assetPreview>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -262,18 +229,6 @@ export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>
 
 
 
-export type groupPreviewResponse200 = {
-  data: Blob
-  status: 200
-}
-
-export type groupPreviewResponseSuccess = (groupPreviewResponse200) & {
-  headers: Headers;
-};
-;
-
-export type groupPreviewResponse = (groupPreviewResponseSuccess)
-
 export const getGroupPreviewUrl = (id: number,) => {
 
 
@@ -282,22 +237,16 @@ export const getGroupPreviewUrl = (id: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Media/group/preview/${id}`
 }
 
-export const groupPreview = async (id: number, options?: RequestInit): Promise<groupPreviewResponse> => {
+export const groupPreview = async (id: number, options?: Parameters<typeof customClient>[1]): Promise<Blob> => {
 
-  const res = await fetch(getGroupPreviewUrl(id),
+  return customClient<Blob>(getGroupPreviewUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.blob();
-  const data: groupPreviewResponse['data'] = body as groupPreviewResponse['data']
-  return { data, status: res.status, headers: res.headers } as groupPreviewResponse
-}
+);}
 
 
 
@@ -310,16 +259,16 @@ export const getGroupPreviewQueryKey = (id: number,) => {
     }
 
 
-export const getGroupPreviewQueryOptions = <TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, fetch?: RequestInit}
+export const getGroupPreviewQueryOptions = <TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGroupPreviewQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof groupPreview>>> = ({ signal }) => groupPreview(id, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof groupPreview>>> = ({ signal }) => groupPreview(id, { signal, ...requestOptions });
 
 
 
@@ -339,7 +288,7 @@ export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>
           TError,
           Awaited<ReturnType<typeof groupPreview>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
@@ -349,16 +298,16 @@ export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>
           TError,
           Awaited<ReturnType<typeof groupPreview>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -374,18 +323,6 @@ export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>
 
 
 
-export type assetMimeTypeResponse200 = {
-  data: string
-  status: 200
-}
-
-export type assetMimeTypeResponseSuccess = (assetMimeTypeResponse200) & {
-  headers: Headers;
-};
-;
-
-export type assetMimeTypeResponse = (assetMimeTypeResponseSuccess)
-
 export const getAssetMimeTypeUrl = (id: number,) => {
 
 
@@ -394,23 +331,16 @@ export const getAssetMimeTypeUrl = (id: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Media/asset/${id}/mime-type`
 }
 
-export const assetMimeType = async (id: number, options?: RequestInit): Promise<assetMimeTypeResponse> => {
+export const assetMimeType = async (id: number, options?: Parameters<typeof customClient>[1]): Promise<string> => {
 
-  const res = await fetch(getAssetMimeTypeUrl(id),
+  return customClient<string>(getAssetMimeTypeUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: assetMimeTypeResponse['data'] = body !== null ? body : ''
-  return { data, status: res.status, headers: res.headers } as assetMimeTypeResponse
-}
+);}
 
 
 
@@ -423,16 +353,16 @@ export const getAssetMimeTypeQueryKey = (id: number,) => {
     }
 
 
-export const getAssetMimeTypeQueryOptions = <TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, fetch?: RequestInit}
+export const getAssetMimeTypeQueryOptions = <TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getAssetMimeTypeQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetMimeType>>> = ({ signal }) => assetMimeType(id, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetMimeType>>> = ({ signal }) => assetMimeType(id, { signal, ...requestOptions });
 
 
 
@@ -452,7 +382,7 @@ export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType
           TError,
           Awaited<ReturnType<typeof assetMimeType>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
@@ -462,16 +392,16 @@ export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType
           TError,
           Awaited<ReturnType<typeof assetMimeType>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, fetch?: RequestInit}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

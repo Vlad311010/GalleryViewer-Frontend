@@ -29,7 +29,10 @@ import type {
   NotFoundResult
 } from '../model';
 
+import { customClient } from '../../client/customClient';
 
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
@@ -48,25 +51,6 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export type assetInfoResponse200 = {
-  data: AssetGroupPositionResponseModel
-  status: 200
-}
-
-export type assetInfoResponse404 = {
-  data: NotFoundResult
-  status: 404
-}
-
-export type assetInfoResponseSuccess = (assetInfoResponse200) & {
-  headers: Headers;
-};
-export type assetInfoResponseError = (assetInfoResponse404) & {
-  headers: Headers;
-};
-
-export type assetInfoResponse = (assetInfoResponseSuccess | assetInfoResponseError)
-
 export const getAssetInfoUrl = (assetId: number,) => {
 
 
@@ -75,23 +59,16 @@ export const getAssetInfoUrl = (assetId: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Assets/${assetId}`
 }
 
-export const assetInfo = async (assetId: number, options?: RequestInit): Promise<assetInfoResponse> => {
+export const assetInfo = async (assetId: number, options?: Parameters<typeof customClient>[1]): Promise<AssetGroupPositionResponseModel> => {
 
-  const res = await fetch(getAssetInfoUrl(assetId),
+  return customClient<AssetGroupPositionResponseModel>(getAssetInfoUrl(assetId),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: assetInfoResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as assetInfoResponse
-}
+);}
 
 
 
@@ -104,16 +81,16 @@ export const getAssetInfoQueryKey = (assetId: number,) => {
     }
 
 
-export const getAssetInfoQueryOptions = <TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, fetch?: RequestInit}
+export const getAssetInfoQueryOptions = <TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getAssetInfoQueryKey(assetId);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetInfo>>> = ({ signal }) => assetInfo(assetId, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetInfo>>> = ({ signal }) => assetInfo(assetId, { signal, ...requestOptions });
 
 
 
@@ -133,7 +110,7 @@ export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TErr
           TError,
           Awaited<ReturnType<typeof assetInfo>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
@@ -143,16 +120,16 @@ export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TErr
           TError,
           Awaited<ReturnType<typeof assetInfo>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, fetch?: RequestInit}
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, fetch?: RequestInit}
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -168,25 +145,6 @@ export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TErr
 
 
 
-export type assetTagsResponse200 = {
-  data: AssetTagsResponseModel
-  status: 200
-}
-
-export type assetTagsResponse404 = {
-  data: NotFoundResult
-  status: 404
-}
-
-export type assetTagsResponseSuccess = (assetTagsResponse200) & {
-  headers: Headers;
-};
-export type assetTagsResponseError = (assetTagsResponse404) & {
-  headers: Headers;
-};
-
-export type assetTagsResponse = (assetTagsResponseSuccess | assetTagsResponseError)
-
 export const getAssetTagsUrl = (assetId: number,) => {
 
 
@@ -195,23 +153,16 @@ export const getAssetTagsUrl = (assetId: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Assets/${assetId}/tags`
 }
 
-export const assetTags = async (assetId: number, options?: RequestInit): Promise<assetTagsResponse> => {
+export const assetTags = async (assetId: number, options?: Parameters<typeof customClient>[1]): Promise<AssetTagsResponseModel> => {
 
-  const res = await fetch(getAssetTagsUrl(assetId),
+  return customClient<AssetTagsResponseModel>(getAssetTagsUrl(assetId),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: assetTagsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as assetTagsResponse
-}
+);}
 
 
 
@@ -224,16 +175,16 @@ export const getAssetTagsQueryKey = (assetId: number,) => {
     }
 
 
-export const getAssetTagsQueryOptions = <TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, fetch?: RequestInit}
+export const getAssetTagsQueryOptions = <TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getAssetTagsQueryKey(assetId);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetTags>>> = ({ signal }) => assetTags(assetId, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetTags>>> = ({ signal }) => assetTags(assetId, { signal, ...requestOptions });
 
 
 
@@ -253,7 +204,7 @@ export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TErr
           TError,
           Awaited<ReturnType<typeof assetTags>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
@@ -263,16 +214,16 @@ export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TErr
           TError,
           Awaited<ReturnType<typeof assetTags>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, fetch?: RequestInit}
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, fetch?: RequestInit}
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -288,25 +239,6 @@ export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TErr
 
 
 
-export type addAssetTagsResponse204 = {
-  data: void
-  status: 204
-}
-
-export type addAssetTagsResponse404 = {
-  data: NotFoundResult
-  status: 404
-}
-
-export type addAssetTagsResponseSuccess = (addAssetTagsResponse204) & {
-  headers: Headers;
-};
-export type addAssetTagsResponseError = (addAssetTagsResponse404) & {
-  headers: Headers;
-};
-
-export type addAssetTagsResponse = (addAssetTagsResponseSuccess | addAssetTagsResponseError)
-
 export const getAddAssetTagsUrl = (assetId: number,) => {
 
 
@@ -316,38 +248,31 @@ export const getAddAssetTagsUrl = (assetId: number,) => {
 }
 
 export const addAssetTags = async (assetId: number,
-    addAssetTagsBody?: string[], options?: RequestInit): Promise<addAssetTagsResponse> => {
+    addAssetTagsBody?: string[], options?: Parameters<typeof customClient>[1]): Promise<void> => {
 
-  const res = await fetch(getAddAssetTagsUrl(assetId),
+  return customClient<void>(getAddAssetTagsUrl(assetId),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(addAssetTagsBody)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: addAssetTagsResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as addAssetTagsResponse
-}
+);}
 
 
 
 
 
 export const getAddAssetTagsMutationOptions = <TError = NotFoundResult,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext>, request?: SecondParameter<typeof customClient>}
 ): UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext> => {
 
 const mutationKey = ['addAssetTags'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -355,7 +280,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof addAssetTags>>, {assetId: number;data?: string[]}> = (props) => {
           const {assetId,data} = props ?? {};
 
-          return  addAssetTags(assetId,data,fetchOptions)
+          return  addAssetTags(assetId,data,requestOptions)
         }
 
 
@@ -370,7 +295,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
     export type AddAssetTagsMutationError = NotFoundResult
 
     export const useAddAssetTags = <TError = NotFoundResult,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof addAssetTags>>,
         TError,
@@ -379,26 +304,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       > => {
       return useMutation(getAddAssetTagsMutationOptions(options), queryClient);
     }
-    export type removeAssetTagResponse204 = {
-  data: void
-  status: 204
-}
-
-export type removeAssetTagResponse404 = {
-  data: NotFoundResult
-  status: 404
-}
-
-export type removeAssetTagResponseSuccess = (removeAssetTagResponse204) & {
-  headers: Headers;
-};
-export type removeAssetTagResponseError = (removeAssetTagResponse404) & {
-  headers: Headers;
-};
-
-export type removeAssetTagResponse = (removeAssetTagResponseSuccess | removeAssetTagResponseError)
-
-export const getRemoveAssetTagUrl = (assetId: number,
+    export const getRemoveAssetTagUrl = (assetId: number,
     tag: string,) => {
 
 
@@ -408,38 +314,31 @@ export const getRemoveAssetTagUrl = (assetId: number,
 }
 
 export const removeAssetTag = async (assetId: number,
-    tag: string, options?: RequestInit): Promise<removeAssetTagResponse> => {
+    tag: string, options?: Parameters<typeof customClient>[1]): Promise<void> => {
 
-  const res = await fetch(getRemoveAssetTagUrl(assetId,tag),
+  return customClient<void>(getRemoveAssetTagUrl(assetId,tag),
   {
     ...options,
     method: 'DELETE'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: removeAssetTagResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as removeAssetTagResponse
-}
+);}
 
 
 
 
 
 export const getRemoveAssetTagMutationOptions = <TError = NotFoundResult,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext>, request?: SecondParameter<typeof customClient>}
 ): UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext> => {
 
 const mutationKey = ['removeAssetTag'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -447,7 +346,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof removeAssetTag>>, {assetId: number;tag: string}> = (props) => {
           const {assetId,tag} = props ?? {};
 
-          return  removeAssetTag(assetId,tag,fetchOptions)
+          return  removeAssetTag(assetId,tag,requestOptions)
         }
 
 
@@ -462,7 +361,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
     export type RemoveAssetTagMutationError = NotFoundResult
 
     export const useRemoveAssetTag = <TError = NotFoundResult,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof removeAssetTag>>,
         TError,

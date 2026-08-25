@@ -36,12 +36,8 @@ export function Gallery({ identifier } : GalleryProps ) {
   }
   
   
-  const { data, isLoading, error } = useListItems(identifier, filterParams);
-
-   
-  if (!data) {
-    return <h3>Loading</h3>;
-  }
+  const listItemsResponse = useListItems(identifier, filterParams);
+  let data = listItemsResponse.data
 
   return (<>
     <div className="markdown-toolbar">
@@ -64,9 +60,9 @@ export function Gallery({ identifier } : GalleryProps ) {
     </div>
 
     <ItemsGrid 
-      items = {data.data.items}
+      items = {data?.items ?? []}
       page = {page}
-      totalPages = {data.data.pagesCount as number}
+      totalPages = {data?.pagesCount ?? 0}
     /> 
 
   </>);

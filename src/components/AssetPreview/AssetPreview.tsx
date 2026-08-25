@@ -1,4 +1,4 @@
-import { getAssetPreviewUrl, getGroupPreviewUrl, getAssetUrl, useAssetMimeType  } from '@api/media/media';
+import { getAssetPreviewUrl, getAssetUrl, getGroupPreviewUrl, useAssetMimeType  } from '@api/media/media';
 import type { DisplayItemResponseModel } from '@api/model/displayItemResponseModel';
 import { DisplayItemType } from "@api/model/displayItemType";
 
@@ -15,15 +15,10 @@ type AssetPreviewProps = {
 export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
   const { isEditMode } = useViewMode();
 
-  const { data: assetMimeTypeResponse, isError } = useAssetMimeType(item.id);
-  let isVideo : boolean;
-  if (isError || !assetMimeTypeResponse) {
-    isVideo = false;
-  }  
-  else { 
-    isVideo = assetMimeTypeResponse.data.startsWith("video"); 
-  }
+  const assetMimeTypeResponse = useAssetMimeType(item.id);
+  const assetMimeType = assetMimeTypeResponse.data;
   
+  const isVideo = assetMimeType?.startsWith("video") ?? false;
   
   let imageElement;
   if (item.type === DisplayItemType.Asset) {
@@ -34,29 +29,32 @@ export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
   }
 
 
-  return (<div className="gallery-item">
-    <figure className="gallery-item-image">
-      {imageElement}
-    </figure> 
-    {isEditMode && assetPosition && (
-      <div className="gallery-item-editor">
-        <input
-          type="number"
-          value={assetPosition.position}
-          aria-label="Position"
-        />
-
-        <label>
-          <input readOnly
-            type="checkbox"
-            checked={assetPosition.isCover}
-            aria-label="Cover"
+  return (
+    <div className="gallery-item">
+      <figure className="gallery-item-image">
+        {imageElement}
+      </figure> 
+      {isEditMode && assetPosition && (
+        <div className="gallery-item-editor">
+          <input
+            onChange={(x) => x}
+            type="number"
+            value={assetPosition.position}
+            aria-label="Position"
           />
-          Cover
-        </label>
-      </div>
-    )}
-  </div>);
+
+          <label>
+            <input readOnly
+              type="checkbox"
+              checked={assetPosition.isCover}
+              aria-label="Cover"
+            />
+            Cover
+          </label>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function ConstructAssetRef(id:number, isEditMode: boolean, isVideo: boolean) {

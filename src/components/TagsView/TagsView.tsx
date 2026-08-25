@@ -21,15 +21,18 @@ export function TagsView() {
     Take: itemsPerPage,
   }
 
-  const { data: pagedTags, isLoading, error } = useListTags(request)
-  
+  const pagedTagsResponse = useListTags(request)
+  const pagedTags = pagedTagsResponse.data;
+
   return (
     <div className="tag-list">
-      {pagedTags?.data.items.map((tag) => (
-        <span className="tag" key={tag.id}>
-          <span className={`tag-name tag-type ${toCssClass(toTagCategory(tag.category))}`}>{tag.name}</span>
-          <span className="tag-count">{tag.occurrences}</span>
-        </span>
+      {pagedTags && pagedTags.items && 
+        (pagedTags.items.map((tag) => (
+          <span className="tag" key={tag.id}>
+            <span className={`tag-name tag-type ${toCssClass(toTagCategory(tag.category))}`}>{tag.name}</span>
+            <span className="tag-count">{tag.occurrences}</span>
+          </span>
+        )
       ))}
     </div>
   );

@@ -5,10 +5,9 @@ import './AssetDetails.css';
 import { TagCategory } from '@/enums/TagCategory';
 import { toCssClass } from '@/utils/tagCategoryHelpers';
 import {  getAssetTagsQueryKey, useAddAssetTags, useAssetTags, useRemoveAssetTag } from '@/contract/assets/assets';
-import type { AssetTagsResponseModel } from '@/contract/model';
 import { CONSTANTS } from '@/Constants';
 import { useQueryClient } from '@tanstack/react-query';
-import { getAssetPreviewUrl, getAssetUrl, useAssetMimeType } from '@/contract/media/media';
+import { useAssetMimeType, getAssetUrl, getAssetPreviewUrl } from '@/contract/media/media';
 import { useViewMode } from '@comp/ViewModeState/ViewModeState';
 
 
@@ -43,18 +42,16 @@ export function AssetDetails({ identifier } : AssetDetailsProps ) {
     },
   });
 
-
-  const {data: response} = useAssetTags(identifier);
-  const assetTags = response?.data as AssetTagsResponseModel;
-
+  const tagsResponse = useAssetTags(identifier);
+  let assetTags =  tagsResponse.data;
+  
   const assetUrl = getAssetUrl(identifier);  
   const assetPreviewUrl = getAssetPreviewUrl(identifier);  
-  const { data: assetMimeTypeResponse, isError } = useAssetMimeType(identifier);
-  if (isError || !assetMimeTypeResponse) {
-    return <></>
-  }  
-  
-  const isVideo = assetMimeTypeResponse.data.startsWith("video");
+
+  const assetMimeTypeResponse = useAssetMimeType(identifier);
+  let assetMimeType = assetMimeTypeResponse.data;
+
+  const isVideo = assetMimeType?.startsWith("video") ?? false;
   return (
     <div className="tag-layout">
       <aside className="tag-sidebar">
@@ -64,7 +61,7 @@ export function AssetDetails({ identifier } : AssetDetailsProps ) {
             <h3 className="tag-category-title">{category}</h3>
 
             <div className="tag-category-list">
-              {assetTags && 
+              {assetTags && assetTags.tags && 
                 (assetTags.tags[category]?.map(tag => (
                   <span key={tag.name} className="tag-entry">
                     <a className={`tag-link tag-type ${toCssClass(category)}`}>

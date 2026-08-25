@@ -4,44 +4,43 @@ import { toTagCategory, toCssClass } from "@/utils/tagCategoryHelpers";
 import "@/utils/stringExtensions";
 
 import { toastError, toastPromise, toastSuccess } from "@/utils/toastCreator";
-import { tagCreate } from "@/contract/tags/tags";
-import type { tagCreateResponse, tagCreateResponse201 } from '@api/tags/tags';
+import { tagCreate, } from "@/contract/tags/tags";
 
 import './TagCreation.css';
 import '@styles/tags.css';
+import type { TagCreateResponseModel } from "@/contract/model";
 
 
 
 export function TagCreation() {
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState<TagCategory>("author");
-
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     const trimmedName = name.trim();
-
     if (!trimmedName) {
+      toastError("Tag name can't be empty");
       return;
     }
 
     const body = {name:trimmedName, category};
     const responsePromise = tagCreate(body);
   
-    toastPromise<tagCreateResponse>(
+    toastPromise<TagCreateResponseModel>(
       responsePromise,
       (data) => {
-        if (data.status === 201) {
           toastSuccess(
-            `Created ${data.data.name}[${data.data.category}]`
+            `Created ${data.name}[${data.category}]`
           );
-        }
       },
       (err) => toastError(`Failed to create: ${String(err)}`)
     );
   
     setName("");
   };
+
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState<TagCategory>("author");
+
 
   return (
     <form name="tag-creation-form" className="tag-creation" onSubmit={handleSubmit}>

@@ -5,10 +5,11 @@ import { Pagginator } from "../Pagginator/Pagginator";
 import { APP_CONFIG } from "@/config";
 
 import './ItemsGrid.css'
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
 import { INPUTS } from "@/Constants";
 import type { AssetPosition } from "@/contract/model/assetPosition";
+import { Loader } from "../Loader/Loader";
 
 
 interface GroupData {
@@ -32,18 +33,16 @@ export function ItemsGrid({ items, page, totalPages, groupData } : ItemsGridProp
   const mousePos = useRef({ x: 0, y: 0 });
   useScrollKeyboardNavigation(mousePos);
 
-  if (!items) {
-    items = [];
-  }
 
   return (<>
     <div className="items-grid">
-      {items.map((item:DisplayItemResponseModel) => (
-        <AssetPreview
-          key={`${item.type}-${item.id}`}
-          item={item}
-          assetPosition={groupData ? getAssetPosition(groupData.assetPositions, Number(item.id)) : undefined}
-        />
+      {items && 
+        (items.map((item:DisplayItemResponseModel) => (
+          <AssetPreview
+            key={`${item.type}-${item.id}`}
+            item={item}
+            assetPosition={groupData ? getAssetPosition(groupData.assetPositions, Number(item.id)) : undefined}
+          />)
       ))}
     </div>
 

@@ -15,7 +15,9 @@ import { SearchQueryState } from "@comp/SearchQueryState/SearchQueryState";
 import { AssetDetails } from "@/components/AssetDetails/AssetDetails";
 import { EditModeProvider } from "@comp/ViewModeState/ViewModeState";
 import { AssetView } from "./components/AssetView/AssetView";
-
+import { ErrorDisplay } from "./components/ErrorDisplay/ErrorDisplay";
+import { ErrorBoundary } from 'react-error-boundary'
+import { AppErrorFallback } from '@comp/AppErrorFallback/AppErrorFallback';
 
 function App() {
 
@@ -26,62 +28,64 @@ function App() {
     
     <BrowserRouter>
       <SearchQueryState>
-        <EditModeProvider>
-          <Routes>
-            <Route path="/" element={<GallerySelector /> } />
-            
-            <Route
-              path="/gallery/:identifier"
-              element={
-                <RoutingWrapper<string>
-                  Component={Gallery}
-                  parseIdentifier={(id) => id}
-                />
-              }
-            />
+        <ErrorBoundary FallbackComponent={AppErrorFallback}>
+          <EditModeProvider>
+            <Routes>
+              <Route path="/" element={<GallerySelector /> } />
+              
+              <Route
+                path="/gallery/:identifier"
+                element={
+                  <RoutingWrapper<string>
+                    Component={Gallery}
+                    parseIdentifier={(id) => id}
+                  />
+                }
+              />
 
-            <Route
-              path="/gallery/:galleryName/group/:identifier"
-              element={
-                <RoutingWrapper<number>
-                  Component={Group}
-                  parseIdentifier={(id) => parseInt(id)}
-                />
-              }
-            />
+              <Route
+                path="/gallery/:galleryName/group/:identifier"
+                element={
+                  <RoutingWrapper<number>
+                    Component={Group}
+                    parseIdentifier={(id) => parseInt(id)}
+                  />
+                }
+              />
 
-            <Route
-              path="/gallery/:galleryName/asset/:identifier"
-              element={
-                <RoutingWrapper<number>
-                  Component={AssetDetails}
-                  parseIdentifier={(id) => parseInt(id)}
-                />
-              }
-            />
+              <Route
+                path="/gallery/:galleryName/asset/:identifier"
+                element={
+                  <RoutingWrapper<number>
+                    Component={AssetDetails}
+                    parseIdentifier={(id) => parseInt(id)}
+                  />
+                }
+              />
 
-            <Route
-              path="/gallery/:galleryName/asset/:identifier/view"
-              element={
-                <RoutingWrapper<number>
-                  Component={AssetView}
-                  parseIdentifier={(id) => parseInt(id)}
-                />
-              }
-            />
+              <Route
+                path="/gallery/:galleryName/asset/:identifier/view"
+                element={
+                  <RoutingWrapper<number>
+                    Component={AssetView}
+                    parseIdentifier={(id) => parseInt(id)}
+                  />
+                }
+              />
 
-            <Route 
-              path="/tag/list"
-              element={<TagsView />} 
-            />
+              <Route 
+                path="/tag/list"
+                element={<TagsView />} 
+              />
 
-            <Route 
-              path="/tag"
-              element={<TagCreation />} 
-            />
-
-          </Routes>
-        </EditModeProvider>
+              <Route 
+                path="/tag"
+                element={<TagCreation />} 
+              />
+              
+            </Routes>
+          </EditModeProvider>
+        </ErrorBoundary>
       </SearchQueryState>
     </BrowserRouter>
 

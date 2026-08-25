@@ -222,7 +222,7 @@ function useTagSearch(searchValue: string) {
     );
 
   return {
-    suggestions: response?.data ?? [],
+    suggestions: response ?? [],
     isFetching,
   };
 }

@@ -25,7 +25,10 @@ import type {
   ListItemsParams
 } from '../model';
 
+import { customClient } from '../../client/customClient';
 
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
@@ -43,18 +46,6 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
-
-export type listItemsResponse200 = {
-  data: DisplayItemResponseModelPagedData
-  status: 200
-}
-
-export type listItemsResponseSuccess = (listItemsResponse200) & {
-  headers: Headers;
-};
-;
-
-export type listItemsResponse = (listItemsResponseSuccess)
 
 export const getListItemsUrl = (gallery: string,
     params?: ListItemsParams,) => {
@@ -81,23 +72,16 @@ export const getListItemsUrl = (gallery: string,
 }
 
 export const listItems = async (gallery: string,
-    params?: ListItemsParams, options?: RequestInit): Promise<listItemsResponse> => {
+    params?: ListItemsParams, options?: Parameters<typeof customClient>[1]): Promise<DisplayItemResponseModelPagedData> => {
 
-  const res = await fetch(getListItemsUrl(gallery,params),
+  return customClient<DisplayItemResponseModelPagedData>(getListItemsUrl(gallery,params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: listItemsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as listItemsResponse
-}
+);}
 
 
 
@@ -112,16 +96,16 @@ export const getListItemsQueryKey = (gallery: string,
 
 
 export const getListItemsQueryOptions = <TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(gallery: string,
-    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getListItemsQueryKey(gallery,params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listItems>>> = ({ signal }) => listItems(gallery,params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listItems>>> = ({ signal }) => listItems(gallery,params, { signal, ...requestOptions });
 
 
 
@@ -142,7 +126,7 @@ export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TErr
           TError,
           Awaited<ReturnType<typeof listItems>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
@@ -153,18 +137,18 @@ export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TErr
           TError,
           Awaited<ReturnType<typeof listItems>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
  gallery: string,
-    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TError = unknown>(
  gallery: string,
-    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, fetch?: RequestInit}
+    params?: ListItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listItems>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -179,18 +163,6 @@ export function useListItems<TData = Awaited<ReturnType<typeof listItems>>, TErr
 
 
 
-
-export type listGroupResponse200 = {
-  data: DisplayItemResponseModelPagedData
-  status: 200
-}
-
-export type listGroupResponseSuccess = (listGroupResponse200) & {
-  headers: Headers;
-};
-;
-
-export type listGroupResponse = (listGroupResponseSuccess)
 
 export const getListGroupUrl = (groupId: number,
     params?: ListGroupParams,) => {
@@ -209,23 +181,16 @@ export const getListGroupUrl = (groupId: number,
 }
 
 export const listGroup = async (groupId: number,
-    params?: ListGroupParams, options?: RequestInit): Promise<listGroupResponse> => {
+    params?: ListGroupParams, options?: Parameters<typeof customClient>[1]): Promise<DisplayItemResponseModelPagedData> => {
 
-  const res = await fetch(getListGroupUrl(groupId,params),
+  return customClient<DisplayItemResponseModelPagedData>(getListGroupUrl(groupId,params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: listGroupResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as listGroupResponse
-}
+);}
 
 
 
@@ -240,16 +205,16 @@ export const getListGroupQueryKey = (groupId: number,
 
 
 export const getListGroupQueryOptions = <TData = Awaited<ReturnType<typeof listGroup>>, TError = unknown>(groupId: number,
-    params?: ListGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGroup>>, TError, TData>>, fetch?: RequestInit}
+    params?: ListGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGroup>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getListGroupQueryKey(groupId,params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listGroup>>> = ({ signal }) => listGroup(groupId,params, { signal, ...fetchOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listGroup>>> = ({ signal }) => listGroup(groupId,params, { signal, ...requestOptions });
 
 
 
@@ -270,7 +235,7 @@ export function useListGroup<TData = Awaited<ReturnType<typeof listGroup>>, TErr
           TError,
           Awaited<ReturnType<typeof listGroup>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListGroup<TData = Awaited<ReturnType<typeof listGroup>>, TError = unknown>(
@@ -281,18 +246,18 @@ export function useListGroup<TData = Awaited<ReturnType<typeof listGroup>>, TErr
           TError,
           Awaited<ReturnType<typeof listGroup>>
         > , 'initialData'
-      >, fetch?: RequestInit}
+      >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListGroup<TData = Awaited<ReturnType<typeof listGroup>>, TError = unknown>(
  groupId: number,
-    params?: ListGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGroup>>, TError, TData>>, fetch?: RequestInit}
+    params?: ListGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGroup>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListGroup<TData = Awaited<ReturnType<typeof listGroup>>, TError = unknown>(
  groupId: number,
-    params?: ListGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGroup>>, TError, TData>>, fetch?: RequestInit}
+    params?: ListGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listGroup>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
