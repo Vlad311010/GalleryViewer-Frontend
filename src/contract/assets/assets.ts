@@ -51,7 +51,7 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export const getAssetInfoUrl = (assetId: number,) => {
+export const getGroupAssetInfoUrl = (assetId: number,) => {
 
 
 
@@ -59,9 +59,9 @@ export const getAssetInfoUrl = (assetId: number,) => {
   return `${import.meta.env.VITE_API_URL}/api/Assets/${assetId}`
 }
 
-export const assetInfo = async (assetId: number, options?: Parameters<typeof customClient>[1]): Promise<AssetGroupPositionResponseModel> => {
+export const groupAssetInfo = async (assetId: number, options?: Parameters<typeof customClient>[1]): Promise<AssetGroupPositionResponseModel> => {
 
-  return customClient<AssetGroupPositionResponseModel>(getAssetInfoUrl(assetId),
+  return customClient<AssetGroupPositionResponseModel>(getGroupAssetInfoUrl(assetId),
   {
     ...options,
     method: 'GET'
@@ -74,66 +74,66 @@ export const assetInfo = async (assetId: number, options?: Parameters<typeof cus
 
 
 
-export const getAssetInfoQueryKey = (assetId: number,) => {
+export const getGroupAssetInfoQueryKey = (assetId: number,) => {
     return [
     `${import.meta.env.VITE_API_URL}/api/Assets/${assetId}`
     ] as const;
     }
 
 
-export const getAssetInfoQueryOptions = <TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getGroupAssetInfoQueryOptions = <TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getAssetInfoQueryKey(assetId);
+  const queryKey =  queryOptions?.queryKey ?? getGroupAssetInfoQueryKey(assetId);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof assetInfo>>> = ({ signal }) => assetInfo(assetId, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof groupAssetInfo>>> = ({ signal }) => groupAssetInfo(assetId, { signal, ...requestOptions });
 
 
 
 
 
-   return  { queryKey, queryFn, enabled: assetId !== null && assetId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: assetId !== null && assetId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type AssetInfoQueryResult = NonNullable<Awaited<ReturnType<typeof assetInfo>>>
-export type AssetInfoQueryError = NotFoundResult
+export type GroupAssetInfoQueryResult = NonNullable<Awaited<ReturnType<typeof groupAssetInfo>>>
+export type GroupAssetInfoQueryError = NotFoundResult
 
 
-export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
- assetId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>> & Pick<
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+ assetId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof assetInfo>>,
+          Awaited<ReturnType<typeof groupAssetInfo>>,
           TError,
-          Awaited<ReturnType<typeof assetInfo>>
+          Awaited<ReturnType<typeof groupAssetInfo>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>> & Pick<
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof assetInfo>>,
+          Awaited<ReturnType<typeof groupAssetInfo>>,
           TError,
-          Awaited<ReturnType<typeof assetInfo>>
+          Awaited<ReturnType<typeof groupAssetInfo>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAssetInfo<TData = Awaited<ReturnType<typeof assetInfo>>, TError = NotFoundResult>(
- assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+ assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getAssetInfoQueryOptions(assetId,options)
+  const queryOptions = getGroupAssetInfoQueryOptions(assetId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

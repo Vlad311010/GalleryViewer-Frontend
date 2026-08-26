@@ -1,3 +1,5 @@
+import './Loader.css';
+
 type LoaderProps = {
   width?: number | string;
   height?: number | string;

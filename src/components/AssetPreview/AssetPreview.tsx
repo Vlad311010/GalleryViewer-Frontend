@@ -3,9 +3,10 @@ import type { DisplayItemResponseModel } from '@api/model/displayItemResponseMod
 import { DisplayItemType } from "@api/model/displayItemType";
 
 import './AssetPreview.css'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useViewMode } from '../ViewModeState/ViewModeState';
 import type { AssetPosition } from '@/contract/model';
+import { Loader } from '../Loader/Loader';
 
 type AssetPreviewProps = {
   item: DisplayItemResponseModel;
@@ -14,100 +15,129 @@ type AssetPreviewProps = {
 
 export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
   const { isEditMode } = useViewMode();
+  const { data: assetMimeType, isLoading } = useAssetMimeType(item.id);
 
-  const assetMimeTypeResponse = useAssetMimeType(item.id);
-  const assetMimeType = assetMimeTypeResponse.data;
-  
+  if (isLoading) {
+    return (
+      <div className="gallery-item">
+        <figure className="gallery-item-image">
+          <Loader width={100} height={100} />
+        </figure>
+      </div>
+    );
+  }
+
+
   const isVideo = assetMimeType?.startsWith("video") ?? false;
-  
-  let imageElement;
-  if (item.type === DisplayItemType.Asset) {
-    imageElement = ConstructAssetRef(item.id, isEditMode, isVideo);
-  }
-  else if (item.type === DisplayItemType.Group) {
-    imageElement = ConstructGroupRef(item.id);
-  }
-
+  const isGroup = item.type === DisplayItemType.Group;
 
   return (
     <div className="gallery-item">
       <figure className="gallery-item-image">
-        {imageElement}
-      </figure> 
-      {isEditMode && assetPosition && (
-        <div className="gallery-item-editor">
-          <input
-            onChange={(x) => x}
-            type="number"
-            value={assetPosition.position}
-            aria-label="Position"
+        <AssetLink 
+          id={item.id}
+          isEditMode={isEditMode}
+          isGroup={isGroup}
+        >
+          <PreviewMedia 
+            id={item.id}
+            isEditMode={isEditMode}
+            isGroup={isGroup}
+            isVideo={isVideo}
           />
+        </AssetLink>
+      </figure>
 
-          <label>
-            <input readOnly
-              type="checkbox"
-              checked={assetPosition.isCover}
-              aria-label="Cover"
-            />
-            Cover
-          </label>
-        </div>
+      {isEditMode && assetPosition && (
+        <GroupAssetEditor assetPosition={assetPosition} />
       )}
     </div>
   );
 }
 
-function ConstructAssetRef(id:number, isEditMode: boolean, isVideo: boolean) {
-  const previewUrl = getAssetPreviewUrl(id);
-  const itemLink = getAssetUrl(id);
-
-  const element = isEditMode 
-    ? (
-        <Link className="gallery-item-preview"
-          to={`/gallery/img/asset/${id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src={previewUrl}
-            className="item-asset edit-mode"
-            alt=""
-          />
-          <span className="edit-mode-label">
-            Edit
-          </span>
-        </Link>
-      )
-    : (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href={itemLink}
-      >
-        <img
-          src={previewUrl}
-          className={`item-asset ${isVideo && ("video")}`}
-          alt=""
-        />
-      </a>
-    )
-
-  return element;
+interface GroupAssetEditorProps {
+  assetPosition: AssetPosition;
 }
 
-function ConstructGroupRef(id: number) {
-  const previewUrl = getGroupPreviewUrl(id);
+function GroupAssetEditor({ assetPosition } : GroupAssetEditorProps) {
   return (
-    <Link
-      to={`group/${id}`}
+    <div className="gallery-item-editor">
+      <input
+        onChange={(x) => x}
+        type="number"
+        value={assetPosition.position}
+        aria-label="Position"
+      />
+
+      <label>
+        <input readOnly
+          type="checkbox"
+          checked={assetPosition.isCover}
+          aria-label="Cover"
+        />
+        Cover
+      </label>
+    </div>
+  );
+}
+
+interface AssetLinkProps  {
+  id: number;
+  isGroup : boolean;
+  isEditMode : boolean;
+  children: React.ReactNode;
+}
+
+function AssetLink({ id, isGroup, isEditMode, children } : AssetLinkProps) {
+  if (isGroup) {
+    return (
+      <Link
+        to={`group/${id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </Link> 
+    )
+  }
+
+  const { identifier: galleryName } = useParams<{ identifier: string }>();
+  return (
+    <Link 
+      className="gallery-item-preview"
+      to={isEditMode ? `/gallery/${galleryName}/asset/${id}` : `/gallery/${galleryName}/asset/${id}/view`}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <img
-        src={previewUrl}
-        className="item-group"
-        alt=""
-      />
+      {children}
     </Link>
   )
+}
+
+interface PreviewMediaProps  {
+  id: number;
+  isGroup : boolean;
+  isVideo : boolean;
+  isEditMode : boolean;
+}
+
+function PreviewMedia({ id, isGroup, isEditMode, isVideo } : PreviewMediaProps) {
+  const previewUrl = isGroup ? getGroupPreviewUrl(id) : getAssetPreviewUrl(id);
+  const classStyle = isGroup 
+    ? "item-group" 
+    : `item-asset ${isVideo && ("video")}`;
+
+  return (<>
+    <img
+      src={previewUrl}
+      className={classStyle}
+      alt=""
+    />
+
+    {isEditMode && 
+      (<span className="edit-mode-label">
+        Edit
+      </span>)
+    }
+  </>);
 }

@@ -62,3 +62,4 @@ chrome-user-data
 .claude/*.local.*
 .claude/worktrees
 scripts/publish.ps1
+public/favicon.svg

@@ -16,3 +16,11 @@ img {
 .asset-view {
   background: rgb(14, 14, 14);
 }
+
+.controlls-disabled::-webkit-media-controls {
+  display:none;
+}
+
+.asset-view video:focus {
+  outline: none;
+}

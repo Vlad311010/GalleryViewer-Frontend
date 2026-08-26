@@ -12,12 +12,11 @@ import { TagsView } from "@comp/TagsView/TagsView";
 import { TagCreation } from "@comp/TagCreation/TagCreation";
 import { Toaster } from "react-hot-toast";
 import { SearchQueryState } from "@comp/SearchQueryState/SearchQueryState";
-import { AssetDetails } from "@/components/AssetDetails/AssetDetails";
+import { AssetDetails } from "@comp/AssetDetails/AssetDetails";
 import { EditModeProvider } from "@comp/ViewModeState/ViewModeState";
-import { AssetView } from "./components/AssetView/AssetView";
-import { ErrorDisplay } from "./components/ErrorDisplay/ErrorDisplay";
 import { ErrorBoundary } from 'react-error-boundary'
 import { AppErrorFallback } from '@comp/AppErrorFallback/AppErrorFallback';
+import { AssetView } from "@comp/AssetView/AssetView";
 
 function App() {
 

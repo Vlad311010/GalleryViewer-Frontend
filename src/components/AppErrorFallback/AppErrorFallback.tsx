@@ -21,7 +21,7 @@ export function AppErrorFallback({
 
   return (
     <ErrorDisplay 
-      status={0}
+      status={undefined}
       message={message ?? "An unexpected error occurred"}
     />
   );
