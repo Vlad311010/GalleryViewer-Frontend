@@ -11,7 +11,7 @@ export interface AssetGroupPositionResponseModel {
   /** @nullable */
   groupId?: number | null;
   /** @nullable */
-  nextAsset?: number | null;
-  /** @nullable */
   previousAsset?: number | null;
+  /** @nullable */
+  nextAsset?: number | null;
 }

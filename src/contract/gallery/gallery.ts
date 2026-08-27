@@ -21,7 +21,7 @@ import type {
 
 import type {
   GalleryResponseModel,
-  NotFoundResult
+  ProblemDetails
 } from '../model';
 
 import { customClient } from '../../client/customClient';
@@ -170,7 +170,7 @@ export const getGalleryByNameQueryKey = (name: string,) => {
     }
 
 
-export const getGalleryByNameQueryOptions = <TData = Awaited<ReturnType<typeof galleryByName>>, TError = NotFoundResult>(name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof galleryByName>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getGalleryByNameQueryOptions = <TData = Awaited<ReturnType<typeof galleryByName>>, TError = ProblemDetails>(name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof galleryByName>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -189,10 +189,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type GalleryByNameQueryResult = NonNullable<Awaited<ReturnType<typeof galleryByName>>>
-export type GalleryByNameQueryError = NotFoundResult
+export type GalleryByNameQueryError = ProblemDetails
 
 
-export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = NotFoundResult>(
+export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = ProblemDetails>(
  name: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof galleryByName>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof galleryByName>>,
@@ -202,7 +202,7 @@ export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = NotFoundResult>(
+export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = ProblemDetails>(
  name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof galleryByName>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof galleryByName>>,
@@ -212,12 +212,12 @@ export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = NotFoundResult>(
+export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = ProblemDetails>(
  name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof galleryByName>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = NotFoundResult>(
+export function useGalleryByName<TData = Awaited<ReturnType<typeof galleryByName>>, TError = ProblemDetails>(
  name: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof galleryByName>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {

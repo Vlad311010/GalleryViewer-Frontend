@@ -38,7 +38,6 @@ export function useTagSearchInput({
   const [cursorPosition, setCursorPosition] = useState(0);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const [isFocused, setIsFocused] = useState(false);
-  // const [selectedTags, setSelectedTags] = useState<SelectedTag[]>([]);
 
   const currentWord = getCurrentWord(value, cursorPosition);
 
@@ -174,14 +173,6 @@ export function useTagSearchInput({
 
     setValue(newInputValue);
     setCursorPosition(newCursorPosition);
-
-    /*setSelectedTags((tags) => [
-      ...tags,
-      {
-        name: suggestion.name,
-        exclude: word.hasExclusionPrefix,
-      },
-    ]);*/
   };
 
   return {
@@ -194,7 +185,6 @@ export function useTagSearchInput({
     currentWord,
     suggestions,
     selectedSuggestionIndex,
-    // selectedTags,
 
     showHints:
       isFocused && suggestions.length > 0,

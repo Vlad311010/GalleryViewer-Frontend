@@ -50,6 +50,7 @@ export function TagCreation() {
           className="tag-input tag-name-input"
           type="text"
           value={name}
+          autoComplete="off"
           onChange={(e) => setName(e.target.value)}
           placeholder="Tag name"
         />

@@ -26,7 +26,8 @@ import type {
 import type {
   AssetGroupPositionResponseModel,
   AssetTagsResponseModel,
-  NotFoundResult
+  InvalidTagsProblemDetails,
+  ProblemDetails
 } from '../model';
 
 import { customClient } from '../../client/customClient';
@@ -81,7 +82,7 @@ export const getGroupAssetInfoQueryKey = (assetId: number,) => {
     }
 
 
-export const getGroupAssetInfoQueryOptions = <TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getGroupAssetInfoQueryOptions = <TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = ProblemDetails>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -100,10 +101,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type GroupAssetInfoQueryResult = NonNullable<Awaited<ReturnType<typeof groupAssetInfo>>>
-export type GroupAssetInfoQueryError = NotFoundResult
+export type GroupAssetInfoQueryError = ProblemDetails
 
 
-export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = ProblemDetails>(
  assetId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof groupAssetInfo>>,
@@ -113,7 +114,7 @@ export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetIn
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = ProblemDetails>(
  assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof groupAssetInfo>>,
@@ -123,12 +124,12 @@ export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetIn
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = ProblemDetails>(
  assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = NotFoundResult>(
+export function useGroupAssetInfo<TData = Awaited<ReturnType<typeof groupAssetInfo>>, TError = ProblemDetails>(
  assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupAssetInfo>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -175,7 +176,7 @@ export const getAssetTagsQueryKey = (assetId: number,) => {
     }
 
 
-export const getAssetTagsQueryOptions = <TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getAssetTagsQueryOptions = <TData = Awaited<ReturnType<typeof assetTags>>, TError = ProblemDetails>(assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -194,10 +195,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type AssetTagsQueryResult = NonNullable<Awaited<ReturnType<typeof assetTags>>>
-export type AssetTagsQueryError = NotFoundResult
+export type AssetTagsQueryError = ProblemDetails
 
 
-export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
+export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = ProblemDetails>(
  assetId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof assetTags>>,
@@ -207,7 +208,7 @@ export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TErr
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
+export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = ProblemDetails>(
  assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof assetTags>>,
@@ -217,12 +218,12 @@ export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TErr
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
+export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = ProblemDetails>(
  assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = NotFoundResult>(
+export function useAssetTags<TData = Awaited<ReturnType<typeof assetTags>>, TError = ProblemDetails>(
  assetId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetTags>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -263,7 +264,7 @@ export const addAssetTags = async (assetId: number,
 
 
 
-export const getAddAssetTagsMutationOptions = <TError = NotFoundResult,
+export const getAddAssetTagsMutationOptions = <TError = InvalidTagsProblemDetails | ProblemDetails,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext>, request?: SecondParameter<typeof customClient>}
 ): UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext> => {
 
@@ -292,9 +293,9 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type AddAssetTagsMutationResult = NonNullable<Awaited<ReturnType<typeof addAssetTags>>>
     export type AddAssetTagsMutationBody = string[] | undefined
-    export type AddAssetTagsMutationError = NotFoundResult
+    export type AddAssetTagsMutationError = InvalidTagsProblemDetails | ProblemDetails
 
-    export const useAddAssetTags = <TError = NotFoundResult,
+    export const useAddAssetTags = <TError = InvalidTagsProblemDetails | ProblemDetails,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAssetTags>>, TError,{assetId: number;data?: string[]}, TContext>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof addAssetTags>>,
@@ -329,7 +330,7 @@ export const removeAssetTag = async (assetId: number,
 
 
 
-export const getRemoveAssetTagMutationOptions = <TError = NotFoundResult,
+export const getRemoveAssetTagMutationOptions = <TError = ProblemDetails,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext>, request?: SecondParameter<typeof customClient>}
 ): UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext> => {
 
@@ -358,9 +359,9 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type RemoveAssetTagMutationResult = NonNullable<Awaited<ReturnType<typeof removeAssetTag>>>
 
-    export type RemoveAssetTagMutationError = NotFoundResult
+    export type RemoveAssetTagMutationError = ProblemDetails
 
-    export const useRemoveAssetTag = <TError = NotFoundResult,
+    export const useRemoveAssetTag = <TError = ProblemDetails,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAssetTag>>, TError,{assetId: number;tag: string}, TContext>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof removeAssetTag>>,

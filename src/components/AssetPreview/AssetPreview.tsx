@@ -47,7 +47,6 @@ export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
           />
         </AssetLink>
       </figure>
-
       {isEditMode && assetPosition && (
         <GroupAssetEditor assetPosition={assetPosition} />
       )}
@@ -134,7 +133,7 @@ function PreviewMedia({ id, isGroup, isEditMode, isVideo } : PreviewMediaProps) 
       alt=""
     />
 
-    {isEditMode && 
+    {isEditMode && !isGroup && 
       (<span className="edit-mode-label">
         Edit
       </span>)

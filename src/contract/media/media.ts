@@ -19,6 +19,10 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 
+import type {
+  ProblemDetails
+} from '../model';
+
 import { customClient } from '../../client/customClient';
 
 
@@ -71,7 +75,7 @@ export const getAssetQueryKey = (id: number,) => {
     }
 
 
-export const getAssetQueryOptions = <TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getAssetQueryOptions = <TData = Awaited<ReturnType<typeof asset>>, TError = Blob>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -90,10 +94,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type AssetQueryResult = NonNullable<Awaited<ReturnType<typeof asset>>>
-export type AssetQueryError = unknown
+export type AssetQueryError = Blob
 
 
-export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
+export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = Blob>(
  id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof asset>>,
@@ -103,7 +107,7 @@ export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unk
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
+export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof asset>>,
@@ -113,12 +117,12 @@ export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unk
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
+export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = unknown>(
+export function useAsset<TData = Awaited<ReturnType<typeof asset>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof asset>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -165,7 +169,7 @@ export const getAssetPreviewQueryKey = (id: number,) => {
     }
 
 
-export const getAssetPreviewQueryOptions = <TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getAssetPreviewQueryOptions = <TData = Awaited<ReturnType<typeof assetPreview>>, TError = Blob>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -184,10 +188,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type AssetPreviewQueryResult = NonNullable<Awaited<ReturnType<typeof assetPreview>>>
-export type AssetPreviewQueryError = unknown
+export type AssetPreviewQueryError = Blob
 
 
-export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
+export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = Blob>(
  id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof assetPreview>>,
@@ -197,7 +201,7 @@ export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
+export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof assetPreview>>,
@@ -207,12 +211,12 @@ export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
+export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = unknown>(
+export function useAssetPreview<TData = Awaited<ReturnType<typeof assetPreview>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -259,7 +263,7 @@ export const getGroupPreviewQueryKey = (id: number,) => {
     }
 
 
-export const getGroupPreviewQueryOptions = <TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getGroupPreviewQueryOptions = <TData = Awaited<ReturnType<typeof groupPreview>>, TError = Blob>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -278,10 +282,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type GroupPreviewQueryResult = NonNullable<Awaited<ReturnType<typeof groupPreview>>>
-export type GroupPreviewQueryError = unknown
+export type GroupPreviewQueryError = Blob
 
 
-export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
+export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = Blob>(
  id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof groupPreview>>,
@@ -291,7 +295,7 @@ export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
+export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof groupPreview>>,
@@ -301,12 +305,12 @@ export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
+export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = unknown>(
+export function useGroupPreview<TData = Awaited<ReturnType<typeof groupPreview>>, TError = Blob>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupPreview>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -353,7 +357,7 @@ export const getAssetMimeTypeQueryKey = (id: number,) => {
     }
 
 
-export const getAssetMimeTypeQueryOptions = <TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getAssetMimeTypeQueryOptions = <TData = Awaited<ReturnType<typeof assetMimeType>>, TError = ProblemDetails>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -372,10 +376,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type AssetMimeTypeQueryResult = NonNullable<Awaited<ReturnType<typeof assetMimeType>>>
-export type AssetMimeTypeQueryError = unknown
+export type AssetMimeTypeQueryError = ProblemDetails
 
 
-export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = ProblemDetails>(
  id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof assetMimeType>>,
@@ -385,7 +389,7 @@ export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = ProblemDetails>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof assetMimeType>>,
@@ -395,12 +399,12 @@ export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = ProblemDetails>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = unknown>(
+export function useAssetMimeType<TData = Awaited<ReturnType<typeof assetMimeType>>, TError = ProblemDetails>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof assetMimeType>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {

@@ -20,7 +20,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  AssetGroupResponseModel
+  AssetGroupResponseModel,
+  ProblemDetails
 } from '../model';
 
 import { customClient } from '../../client/customClient';
@@ -75,7 +76,7 @@ export const getGroupDetailsQueryKey = (id: number,) => {
     }
 
 
-export const getGroupDetailsQueryOptions = <TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
+export const getGroupDetailsQueryOptions = <TData = Awaited<ReturnType<typeof groupDetails>>, TError = ProblemDetails>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -94,10 +95,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type GroupDetailsQueryResult = NonNullable<Awaited<ReturnType<typeof groupDetails>>>
-export type GroupDetailsQueryError = unknown
+export type GroupDetailsQueryError = ProblemDetails
 
 
-export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
+export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = ProblemDetails>(
  id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof groupDetails>>,
@@ -107,7 +108,7 @@ export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
+export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = ProblemDetails>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof groupDetails>>,
@@ -117,12 +118,12 @@ export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>
       >, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
+export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = ProblemDetails>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = unknown>(
+export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>, TError = ProblemDetails>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groupDetails>>, TError, TData>>, request?: SecondParameter<typeof customClient>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
