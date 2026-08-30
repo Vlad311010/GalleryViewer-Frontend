@@ -10,7 +10,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAssetMimeType, getAssetUrl, getAssetPreviewUrl } from '@/contract/media/media';
 import { useViewMode } from '@comp/ViewModeState/ViewModeState';
 
-
 interface AssetDetailsProps {
   identifier: number
 }
@@ -76,11 +75,15 @@ export function AssetDetails({ identifier } : AssetDetailsProps ) {
                   </span>
                 )
               ))}
-              
             </div>
           </section>
         ))}
         
+        <div>
+          {isEditMode && (<span className="button button-subtle"> 
+            get tags
+          </span>)}
+        </div>
       </aside>
 
     <main className="asset-view">

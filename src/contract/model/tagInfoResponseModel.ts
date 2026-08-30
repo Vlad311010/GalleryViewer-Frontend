@@ -7,10 +7,8 @@
 
 export interface TagInfoResponseModel {
   id: number;
-  /** @nullable */
-  name: string | null;
-  /** @nullable */
-  category: string | null;
+  name: string;
+  category: string;
   occurrences: number;
   /** @nullable */
   canonicalId?: number | null;

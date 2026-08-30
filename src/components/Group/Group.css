@@ -1,0 +1,33 @@
+:root {
+  --controlls-background: #1d1a22;
+  --controlls-border: #342347;
+  --controlls-border-width: 2px;
+}
+
+.group-layout {
+  min-width: 0;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.controlls-bar {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  justify-content: center;
+  
+  
+
+  margin-left: -2px;
+  padding: 1rem 100px;  
+  
+  background-color: var(--controlls-background);
+  border-bottom: var(--controlls-border-width) solid var(--controlls-border);
+
+  gap: 1rem;
+}
+
+.group-content {
+}

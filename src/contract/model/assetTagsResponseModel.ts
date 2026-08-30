@@ -7,6 +7,5 @@
 import type { AssetTagsResponseModelTags } from './assetTagsResponseModelTags';
 
 export interface AssetTagsResponseModel {
-  /** @nullable */
   tags: AssetTagsResponseModelTags;
 }

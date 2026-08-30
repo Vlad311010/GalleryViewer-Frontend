@@ -16,7 +16,6 @@ export interface InvalidTagsProblemDetails {
   detail?: string | null;
   /** @nullable */
   instance?: string | null;
-  /** @nullable */
-  tags: string[] | null;
+  tags: string[];
   [key: string]: unknown;
 }

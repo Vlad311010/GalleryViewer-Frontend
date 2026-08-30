@@ -6,7 +6,4 @@
  */
 import type { TagDtoInfo } from './tagDtoInfo';
 
-/**
- * @nullable
- */
-export type AssetTagsResponseModelTags = {[key: string]: TagDtoInfo[]} | null;
+export type AssetTagsResponseModelTags = {[key: string]: TagDtoInfo[]};

@@ -20,6 +20,8 @@ export * from './listItemsParams';
 export * from './listTagsParams';
 export * from './problemDetails';
 export * from './searchTagsParams';
+export * from './setAssetPositionsRequestModel';
+export * from './setGroupCoverRequestModel';
 export * from './tagCreateRequestModel';
 export * from './tagCreateResponseModel';
 export * from './tagDtoInfo';

@@ -75,9 +75,23 @@
 
 .gallery-item-editor {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.gallery-item-editor-controls {
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
+}
+
+.gallery-item-editor-normalized {
+  font-size: 13px;
+  line-height: 1;
+  color: #bebcc1;
+  opacity: 0.8;
 }
 
 .gallery-item-editor input[type="number"] {

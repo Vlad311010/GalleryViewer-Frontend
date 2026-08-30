@@ -50,7 +50,7 @@ export const getAssetUrl = (id: number,) => {
 
 
 
-  return `${import.meta.env.VITE_API_URL}/api/Media/${id}`
+  return `${import.meta.env.VITE_API_URL}/api/Media/asset/${id}`
 }
 
 export const asset = async (id: number, options?: Parameters<typeof customClient>[1]): Promise<Blob> => {
@@ -70,7 +70,7 @@ export const asset = async (id: number, options?: Parameters<typeof customClient
 
 export const getAssetQueryKey = (id: number,) => {
     return [
-    `${import.meta.env.VITE_API_URL}/api/Media/${id}`
+    `${import.meta.env.VITE_API_URL}/api/Media/asset/${id}`
     ] as const;
     }
 

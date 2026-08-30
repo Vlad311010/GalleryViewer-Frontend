@@ -7,8 +7,7 @@
 
 export interface GalleryResponseModel {
   id: number;
-  /** @nullable */
-  name: string | null;
+  name: string;
   /** @nullable */
   coverAssetId?: number | null;
 }

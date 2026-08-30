@@ -5,23 +5,29 @@
  * OpenAPI spec version: 1.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
   AssetGroupResponseModel,
-  ProblemDetails
+  ProblemDetails,
+  SetAssetPositionsRequestModel,
+  SetGroupCoverRequestModel
 } from '../model';
 
 import { customClient } from '../../client/customClient';
@@ -140,3 +146,133 @@ export function useGroupDetails<TData = Awaited<ReturnType<typeof groupDetails>>
 
 
 
+export const getGroupSetPositonsUrl = (id: number,) => {
+
+
+
+
+  return `${import.meta.env.VITE_API_URL}/api/Groups/${id}/positions`
+}
+
+export const groupSetPositons = async (id: number,
+    setAssetPositionsRequestModel?: SetAssetPositionsRequestModel, options?: Parameters<typeof customClient>[1]): Promise<void> => {
+
+  return customClient<void>(getGroupSetPositonsUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(setAssetPositionsRequestModel)
+  }
+);}
+
+
+
+
+
+export const getGroupSetPositonsMutationOptions = <TError = ProblemDetails,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groupSetPositons>>, TError,{id: number;data?: SetAssetPositionsRequestModel}, TContext>, request?: SecondParameter<typeof customClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof groupSetPositons>>, TError,{id: number;data?: SetAssetPositionsRequestModel}, TContext> => {
+
+const mutationKey = ['groupSetPositons'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof groupSetPositons>>, {id: number;data?: SetAssetPositionsRequestModel}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  groupSetPositons(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GroupSetPositonsMutationResult = NonNullable<Awaited<ReturnType<typeof groupSetPositons>>>
+    export type GroupSetPositonsMutationBody = SetAssetPositionsRequestModel | undefined
+    export type GroupSetPositonsMutationError = ProblemDetails
+
+    export const useGroupSetPositons = <TError = ProblemDetails,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groupSetPositons>>, TError,{id: number;data?: SetAssetPositionsRequestModel}, TContext>, request?: SecondParameter<typeof customClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof groupSetPositons>>,
+        TError,
+        {id: number;data?: SetAssetPositionsRequestModel},
+        TContext
+      > => {
+      return useMutation(getGroupSetPositonsMutationOptions(options), queryClient);
+    }
+    export const getGroupSetCoverUrl = (id: number,) => {
+
+
+
+
+  return `${import.meta.env.VITE_API_URL}/api/Groups/${id}/cover`
+}
+
+export const groupSetCover = async (id: number,
+    setGroupCoverRequestModel?: SetGroupCoverRequestModel, options?: Parameters<typeof customClient>[1]): Promise<void> => {
+
+  return customClient<void>(getGroupSetCoverUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(setGroupCoverRequestModel)
+  }
+);}
+
+
+
+
+
+export const getGroupSetCoverMutationOptions = <TError = ProblemDetails,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groupSetCover>>, TError,{id: number;data?: SetGroupCoverRequestModel}, TContext>, request?: SecondParameter<typeof customClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof groupSetCover>>, TError,{id: number;data?: SetGroupCoverRequestModel}, TContext> => {
+
+const mutationKey = ['groupSetCover'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof groupSetCover>>, {id: number;data?: SetGroupCoverRequestModel}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  groupSetCover(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GroupSetCoverMutationResult = NonNullable<Awaited<ReturnType<typeof groupSetCover>>>
+    export type GroupSetCoverMutationBody = SetGroupCoverRequestModel | undefined
+    export type GroupSetCoverMutationError = ProblemDetails
+
+    export const useGroupSetCover = <TError = ProblemDetails,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groupSetCover>>, TError,{id: number;data?: SetGroupCoverRequestModel}, TContext>, request?: SecondParameter<typeof customClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof groupSetCover>>,
+        TError,
+        {id: number;data?: SetGroupCoverRequestModel},
+        TContext
+      > => {
+      return useMutation(getGroupSetCoverMutationOptions(options), queryClient);
+    }

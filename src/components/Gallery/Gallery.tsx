@@ -39,9 +39,10 @@ export function Gallery({ identifier } : GalleryProps ) {
   const listItemsResponse = useListItems(identifier, filterParams);
   let data = listItemsResponse.data
 
+
   return (<>
     <div className="markdown-toolbar">
-      <Link to="/" className="button button-large">
+      <Link to="/" className="button button-neon button-large">
         ↩ Nav page
       </Link>
 

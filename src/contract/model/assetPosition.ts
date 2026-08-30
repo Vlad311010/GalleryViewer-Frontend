@@ -8,5 +8,4 @@
 export interface AssetPosition {
   id: number;
   position: number;
-  isCover: boolean;
 }

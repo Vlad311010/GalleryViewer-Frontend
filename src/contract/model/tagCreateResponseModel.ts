@@ -7,8 +7,6 @@
 
 export interface TagCreateResponseModel {
   id: number;
-  /** @nullable */
-  name: string | null;
-  /** @nullable */
-  category: string | null;
+  name: string;
+  category: string;
 }

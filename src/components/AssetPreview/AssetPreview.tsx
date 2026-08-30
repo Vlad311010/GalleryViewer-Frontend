@@ -4,17 +4,28 @@ import { DisplayItemType } from "@api/model/displayItemType";
 
 import './AssetPreview.css'
 import { Link, useParams } from 'react-router-dom';
-import { useViewMode } from '../ViewModeState/ViewModeState';
-import type { AssetPosition } from '@/contract/model';
-import { Loader } from '../Loader/Loader';
+import { useViewMode } from '@comp/ViewModeState/ViewModeState';
+import { Loader } from '@comp/Loader/Loader';
+import { useGroupContext, type AssetPosition } from '@comp/Group/Group';
+import { useEffect, useState } from 'react';
 
 type AssetPreviewProps = {
   item: DisplayItemResponseModel;
-  assetPosition?: AssetPosition;
 };
 
-export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
+export function AssetPreview({ item }: AssetPreviewProps) {
+  function getAssetPosition(assetId: number, positions: AssetPosition[]) {
+    const positionData : AssetPosition | undefined = positions.find(x => x.assetId === assetId)
+    if (!positionData) {
+      throw new Error("Position is not defined");
+    }
+
+    return positionData;
+  }
+
   const { isEditMode } = useViewMode();
+  const groupData = useGroupContext();
+
   const { data: assetMimeType, isLoading } = useAssetMimeType(item.id);
 
   if (isLoading) {
@@ -31,6 +42,7 @@ export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
   const isVideo = assetMimeType?.startsWith("video") ?? false;
   const isGroup = item.type === DisplayItemType.Group;
 
+  const assetPositionData = isEditMode && groupData && getAssetPosition(item.id, groupData.positions);
   return (
     <div className="gallery-item">
       <figure className="gallery-item-image">
@@ -47,35 +59,78 @@ export function AssetPreview({ item, assetPosition }: AssetPreviewProps) {
           />
         </AssetLink>
       </figure>
-      {isEditMode && assetPosition && (
-        <GroupAssetEditor assetPosition={assetPosition} />
+      {isEditMode && assetPositionData && (
+        <GroupAssetEditor 
+          assetId={item.id}
+          position={assetPositionData.position} 
+          normalizedPosition={assetPositionData.normalizedPosition} 
+          isGroupCoverAsset={item.id === groupData.coverAssetId}
+          updateAssetPosition={groupData.updateAssetPosition}
+          setAssetCover={groupData.setCoverAsset}
+        />
       )}
     </div>
   );
 }
 
 interface GroupAssetEditorProps {
-  assetPosition: AssetPosition;
+  assetId: number;
+  position: number;
+  normalizedPosition: number;
+  isGroupCoverAsset: boolean;
+  updateAssetPosition: (id: number, position: number) => void;
+  setAssetCover: (id: number) => void;
 }
 
-function GroupAssetEditor({ assetPosition } : GroupAssetEditorProps) {
+function GroupAssetEditor({ assetId, position, normalizedPosition, isGroupCoverAsset, updateAssetPosition, setAssetCover } : GroupAssetEditorProps) {
+  function handleInput(event: React.ChangeEvent<HTMLInputElement>) {
+    setPositionInput(event.target.value);
+  }
+
+  function updatePosition(event : React.ChangeEvent<HTMLInputElement>) {
+    const value = Number(event.target.value);
+
+    if (Number.isNaN(value) || value < 0) {
+      setPositionInput(String(position));
+      return;
+    }
+
+    updateAssetPosition(assetId, value);
+  }
+
+  const [positionInput, setPositionInput] = useState(
+    String(position),
+  );
+
+  useEffect(() => {
+    setPositionInput(String(position));
+  }, [position]);
+
   return (
     <div className="gallery-item-editor">
-      <input
-        onChange={(x) => x}
-        type="number"
-        value={assetPosition.position}
-        aria-label="Position"
-      />
-
-      <label>
-        <input readOnly
-          type="checkbox"
-          checked={assetPosition.isCover}
-          aria-label="Cover"
+      <div className="gallery-item-editor-controls">
+        <input
+          onBlur={updatePosition}
+          onChange={handleInput}
+          type="number"
+          value={positionInput}
+          aria-label="Position"
         />
-        Cover
-      </label>
+
+        <label>
+          <input readOnly
+            type="checkbox"
+            checked={isGroupCoverAsset}
+            aria-label="Cover"
+            onClick={() => setAssetCover(assetId)}
+          />
+          Cover
+        </label>
+      </div>
+
+      <div className="gallery-item-editor-normalized">
+        Normalized position: {normalizedPosition}
+      </div>
     </div>
   );
 }

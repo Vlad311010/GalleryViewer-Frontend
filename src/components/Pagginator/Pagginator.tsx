@@ -36,7 +36,7 @@ export function Pagginator({
         urlConstructor,
         displayMoveButtons
     );
-    
+
     let startElement = Clamp(currentPage - maxPreviousPageButtons, 1, totalPages);
     const endElement = Clamp(startElement + maxButtonsDisplayed - 1, 1, totalPages);
     

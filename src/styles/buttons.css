@@ -1,114 +1,226 @@
 :root {
-  --button-text: #e3d6f0;
-  --button-text-hover: #f3e8ff;
+  /* Colors */
+  --color-purple: 139, 92, 246;
 
-  --button-border: #7347d9;
-  --button-border-hover: #8c27ff;
-  --button-focus: #d8b4fe;
+  --color-text-primary: #e3d6f0;
+  --color-text-primary-hover: #f3e8ff;
 
+  --color-border: #7347d9;
+  --color-border-hover: #8c27ff;
+  --color-focus: #d8b4fe;
 
-  --button-purple-rgb: 139, 92, 246;
+  /* Surfaces */
+  --surface-hover: rgba(var(--color-purple), 0.07);
+  --surface-active: rgba(var(--color-purple), 0.12);
 
-  --button-glow: rgba(var(--button-purple-rgb), 0.2);
-  --button-glow-hover: rgba(var(--button-purple-rgb), 0.4);
-  --button-fill-hover: rgba(var(--button-purple-rgb), 0.07);
-  --button-fill-active: rgba(var(--button-purple-rgb), 0.12);
-  --button-glow-strong: rgba(var(--button-purple-rgb), 0.18);
+  /* Glow */
+  --glow-subtle: rgba(var(--color-purple), 0.2);
+  --glow-medium: rgba(var(--color-purple), 0.4);
+  --glow-strong: rgba(var(--color-purple), 0.18);
 
-  --button-text-glow: rgba(192, 132, 252, 0.55);
-  --button-text-glow-hover: rgba(216, 180, 254, 0.8);
-  --button-text-glow-strong: rgba(168, 85, 247, 0.55);
+  --text-glow: rgba(192, 132, 252, 0.55);
+  --text-glow-hover: rgba(216, 180, 254, 0.8);
+  --text-glow-strong: rgba(168, 85, 247, 0.55);
 
-  --button-shadow-active: rgba(0, 0, 0, 0.25);
+  /* Shadows */
+  --shadow-active: rgba(0, 0, 0, 0.25);
+
+  /* Shape */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  /* Motion */
+  --transition-fast: 160ms ease;
 }
 
+
+/* ==========================================================================
+   Button
+   ========================================================================== */
+
 .button {
+  /* Layout */
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
+  min-width: 60px;
+  min-height: 40px;
+  padding-inline: 20px;
+
+  /* Appearance */
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+
   background: transparent;
-  color: var(--button-text);
+  color: var(--color-text-primary);
 
-  border: 3px solid var(--button-border);
-  border-radius: 3px;
-
-  padding: 0 26px;
-  min-height: 42px;
-
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  /* Typography */
+  font: inherit;
+  font-size: 13px;
   text-align: center;
 
+  /* Interaction */
   cursor: pointer;
 
-  text-shadow:
-    0 0 8px var(--button-text-glow);
-
-  box-shadow:
-    0 0 8px var(--button-glow),
-    inset 0 0 8px rgba(139, 92, 246, 0.06);
-
-  transition: all 160ms ease;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    text-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.button:hover {
-  color: var(--button-text-hover);
-  border-color: var(--button-border-hover);
+.button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
 
-  background: var(--button-fill-hover);
 
-  text-shadow:
-    0 0 6px var(--button-text-glow-hover),
-    0 0 16px var(--button-text-glow-strong);
+/* ==========================================================================
+   Neon
+   ========================================================================== */
+
+.button-neon {
+  min-height: 42px;
+  padding-inline: 26px;
+
+  border: 3px solid var(--color-border);
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  text-shadow: 0 0 8px var(--text-glow);
 
   box-shadow:
-    0 0 10px var(--button-glow-hover),
-    0 0 24px var(--button-glow-strong),
-    inset 0 0 12px rgba(139, 92, 246, 0.08);
+    0 0 8px var(--glow-subtle),
+    inset 0 0 8px rgba(var(--color-purple), 0.06);
+}
+
+.button-neon:hover {
+  color: var(--color-text-primary-hover);
+  border-color: var(--color-border-hover);
+
+  background: var(--surface-hover);
+
+  text-shadow:
+    0 0 6px var(--text-glow-hover),
+    0 0 16px var(--text-glow-strong);
+
+  box-shadow:
+    0 0 10px var(--glow-medium),
+    0 0 24px var(--glow-strong),
+    inset 0 0 12px rgba(var(--color-purple), 0.08);
 
   transform: translateY(-1px);
 }
 
-.button:active {
-  transform: translateY(0);
-
-  background: var(--button-fill-active);
+.button-neon:active {
+  background: var(--surface-active);
 
   box-shadow:
-    0 0 8px rgba(139, 92, 246, 0.3),
-    inset 0 0 10px var(--button-shadow-active);
+    0 0 8px rgba(var(--color-purple), 0.3),
+    inset 0 0 10px var(--shadow-active);
+
+  transform: translateY(0);
 }
 
-.button:focus-visible {
-  outline: 2px solid var(--button-focus);
-  outline-offset: 4px;
+
+/* ==========================================================================
+   Subtle
+   ========================================================================== */
+
+.button-subtle {
+  padding: 6px 12px;
+
+  border-color: var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: transparent;
+  color: var(--color-text-primary);
 }
 
-.button-small {
+.button-subtle:hover {
+  background: var(--surface-hover);
+  border-color: var(--color-border-hover);
+  color: var(--color-text-primary-hover);
+
+  transform: translateY(-1px);
+}
+
+.button-subtle:active {
+  background: var(--surface-active);
+  transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   Sizes
+   ========================================================================== */
+
+.button-sm {
   min-width: 40px;
-  height: 32px;
-  padding: 0 14px;
+  min-height: 32px;
+  padding-inline: 14px;
   font-size: 11px;
 }
 
-.button-medium {
+.button-md {
   min-width: 60px;
-  height: 40px;
-  padding: 0 20px;
+  min-height: 40px;
+  padding-inline: 20px;
   font-size: 13px;
 }
 
-.button-large {
+.button-lg {
   min-width: 90px;
-  height: 48px;
-  padding: 0 26px;
+  min-height: 48px;
+  padding-inline: 26px;
   font-size: 14px;
 }
 
 .button-xl {
   min-width: 190px;
-  height: 58px;
-  padding: 0 32px;
+  min-height: 58px;
+  padding-inline: 32px;
   font-size: 16px;
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
+
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.button:disabled:hover {
+  color: var(--color-text-primary);
+  background: transparent;
+  border-color: none;
+  transform: none;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.button:disabled:active {
+  transform: none;
+}
+
+.button.button-subtle:disabled:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+  background: transparent;
+
+  transform: none;
 }

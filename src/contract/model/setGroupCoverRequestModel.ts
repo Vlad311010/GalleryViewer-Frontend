@@ -5,7 +5,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface TagCreateRequestModel {
-  name: string;
-  category: string;
+export interface SetGroupCoverRequestModel {
+  assetId: number;
 }

@@ -6,12 +6,6 @@
  */
 import type { AssetPosition } from './assetPosition';
 
-export interface AssetGroupResponseModel {
-  id: number;
-  galleryId: number;
-  coverAssetPosition: number;
-  isAssetAddRemoveAllowed: boolean;
+export interface SetAssetPositionsRequestModel {
   positions: AssetPosition[];
-  /** @nullable */
-  title?: string | null;
 }

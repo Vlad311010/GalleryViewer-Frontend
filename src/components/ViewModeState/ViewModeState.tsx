@@ -10,8 +10,7 @@ interface ViewModeContextValue {
   switchEditingMode: () => void;
 }
 
-export const ViewModeContext =
-  createContext<ViewModeContextValue | null>(null);
+const ViewModeContext = createContext<ViewModeContextValue | null>(null);
 
 export function EditModeProvider({ children }: { children: React.ReactNode; }) {
   const [editingMode, setEditingModeState] = useState(

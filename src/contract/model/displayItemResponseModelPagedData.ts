@@ -7,8 +7,7 @@
 import type { DisplayItemResponseModel } from './displayItemResponseModel';
 
 export interface DisplayItemResponseModelPagedData {
-  /** @nullable */
-  items: DisplayItemResponseModel[] | null;
+  items: DisplayItemResponseModel[];
   skip: number;
   take: number;
   totalCount: number;

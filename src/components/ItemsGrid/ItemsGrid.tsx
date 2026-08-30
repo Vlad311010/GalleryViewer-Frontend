@@ -5,34 +5,25 @@ import { Pagginator } from "../Pagginator/Pagginator";
 import { APP_CONFIG } from "@/config";
 
 import './ItemsGrid.css'
-import { Suspense, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { isInputElement, isSpecialCombination } from "@/utils/inputEventUtils";
 import { INPUTS } from "@/Constants";
-import type { AssetPosition } from "@/contract/model/assetPosition";
-import { Loader } from "../Loader/Loader";
 
-
-interface GroupData {
-  id: number,
-  title?: string | null;
-  assetsCount: number 
-  assetPositions: AssetPosition[],  
-  coverAssetPosition: number;
-}
 
 type ItemsGridProps = {
   items: DisplayItemResponseModel[];
   
   page: number;
   totalPages: number;
-
-  groupData?: GroupData;
 };
 
-export function ItemsGrid({ items, page, totalPages, groupData } : ItemsGridProps) {
+export function ItemsGrid({ items, page, totalPages } : ItemsGridProps) {
   const mousePos = useRef({ x: 0, y: 0 });
   useScrollKeyboardNavigation(mousePos);
 
+  if (items.length == 0) {
+    return;
+  }
 
   return (<>
     <div className="items-grid">
@@ -41,7 +32,6 @@ export function ItemsGrid({ items, page, totalPages, groupData } : ItemsGridProp
           <AssetPreview
             key={`${item.type}-${item.id}`}
             item={item}
-            assetPosition={groupData ? getAssetPosition(groupData.assetPositions, Number(item.id)) : undefined}
           />)
       ))}
     </div>
@@ -132,13 +122,4 @@ function openImgUnderMouse(x: number, y: number) {
       window.open(imgSrc);
     }
   }
-}
-
-function getAssetPosition(assetsData: AssetPosition[], assetId: number) {
-  const positionData : AssetPosition | undefined = assetsData.find(x => x.id === assetId)
-  if (!positionData) {
-    throw new Error("Not found");
-  }
-
-  return positionData;
 }

@@ -7,8 +7,7 @@
 import type { TagInfoResponseModel } from './tagInfoResponseModel';
 
 export interface TagInfoResponseModelPagedData {
-  /** @nullable */
-  items: TagInfoResponseModel[] | null;
+  items: TagInfoResponseModel[];
   skip: number;
   take: number;
   totalCount: number;

@@ -83,24 +83,3 @@
     5px 5px;
   background-repeat: no-repeat;
 }
-
-.tag-create-button {
-  padding: 6px 12px;
-
-  border: 1px solid var(--tag-border);
-  border-radius: 6px;
-
-  background: var(--tag-background);
-  color: var(--text-h);
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.tag-create-button:hover {
-  background: var(--tag-background-hover);
-  border-color: var(--tag-border-hover);
-}
