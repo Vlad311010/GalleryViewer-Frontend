@@ -42,7 +42,9 @@ export function TagCreation() {
   const [category, setCategory] = useState<TagCategory>("author");
 
 
-  return (
+  return (<>
+    <title>tag-create</title>
+    
     <form name="tag-creation-form" className="tag-creation" onSubmit={handleSubmit}>
       <div className="tag-input-row">
         <input
@@ -86,5 +88,5 @@ export function TagCreation() {
         Create
       </button>
     </form>
-  );
+  </>);
 }

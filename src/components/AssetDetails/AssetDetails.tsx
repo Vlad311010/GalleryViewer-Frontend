@@ -42,7 +42,7 @@ export function AssetDetails({ identifier } : AssetDetailsProps ) {
   });
 
   const tagsResponse = useAssetTags(identifier);
-  let assetTags =  tagsResponse.data;
+  let assetTags = tagsResponse.data;
   
   const assetUrl = getAssetUrl(identifier);  
   const assetPreviewUrl = getAssetPreviewUrl(identifier);  
@@ -53,6 +53,7 @@ export function AssetDetails({ identifier } : AssetDetailsProps ) {
   const isVideo = assetMimeType?.startsWith("video") ?? false;
   return (
     <div className="tag-layout">
+      <title>{`details: ${identifier}`}</title>
       <aside className="tag-sidebar">
       
         {categoriesOrder.map((category) => (

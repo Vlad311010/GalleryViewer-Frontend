@@ -41,6 +41,7 @@ export function Gallery({ identifier } : GalleryProps ) {
 
 
   return (<>
+    <title>{`${identifier}-${page}`}</title>
     <div className="markdown-toolbar">
       <Link to="/" className="button button-neon button-large">
         ↩ Nav page

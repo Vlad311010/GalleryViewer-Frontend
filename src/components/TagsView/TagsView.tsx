@@ -24,7 +24,9 @@ export function TagsView() {
   const pagedTagsResponse = useListTags(request)
   const pagedTags = pagedTagsResponse.data;
 
-  return (
+  return (<>
+    <title>tags</title>
+    
     <div className="tag-list">
       {pagedTags && pagedTags.items && 
         (pagedTags.items.map((tag) => (
@@ -35,5 +37,5 @@ export function TagsView() {
         )
       ))}
     </div>
-  );
+  </>);
 }

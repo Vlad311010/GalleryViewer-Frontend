@@ -134,6 +134,7 @@ export function Group({ identifier } : GroupProps ) {
 
   return (
     <main className="group-layout">
+      <title>{groupDetails.title ?? `group: ${groupDetails.id}`}</title>
       <section className="controlls-bar">
         <button className="button button-subtle button-sm" onClick={async () => onSubmit(groupDetails.id)}>
           SUBMIT POSITION EDITS

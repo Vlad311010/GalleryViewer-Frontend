@@ -73,12 +73,12 @@ function App() {
               />
 
               <Route 
-                path="/tag/list"
+                path="/tags/list"
                 element={<TagsView />} 
               />
 
               <Route 
-                path="/tag"
+                path="/tags"
                 element={<TagCreation />} 
               />
               

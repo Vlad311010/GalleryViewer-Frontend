@@ -17,12 +17,21 @@ export function AssetView({ identifier }: AssetViewProps) {
         throw new Error("Undefined mime type");
     }
 
+    let renderElement = null;
     if (mimeType?.startsWith("image/")) {
-        return <AssetViewImage identifier={identifier} />;
+        renderElement = <AssetViewImage identifier={identifier} />;
+    }
+    else if (mimeType?.startsWith("video/")) {
+        <AssetViewVideo identifier={identifier} />;
+        return 
     }
 
-    if (mimeType?.startsWith("video/")) {
-        return <AssetViewVideo identifier={identifier} />;
+    if (renderElement) {
+        return (
+        <>
+            <title>{identifier}</title>
+            {renderElement}
+        </>);
     }
 
     throw new Error("Unknown mime type");
