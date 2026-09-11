@@ -117,7 +117,7 @@ export function Group({ identifier } : GroupProps ) {
   });
 
   useEffect(() => {
-    if (groupDetails) {
+    if (groupDetails && groupDetails.positions.length > 0) {
       setAssetPositions(groupDetails.positions?.map(x => ({assetId: x.id, position: x.position, normalizedPosition: x.position })) ?? []);
       setCoverAssetId(groupDetails.positions[groupDetails.coverAssetPosition].id)
     }

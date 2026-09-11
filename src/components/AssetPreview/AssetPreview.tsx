@@ -8,6 +8,7 @@ import { useViewMode } from '@comp/ViewModeState/ViewModeState';
 import { Loader } from '@comp/Loader/Loader';
 import { useGroupContext, type AssetPosition } from '@comp/Group/Group';
 import { useEffect, useState } from 'react';
+import { CONSTANTS } from '@/Constants';
 
 type AssetPreviewProps = {
   item: DisplayItemResponseModel;
@@ -181,9 +182,13 @@ function PreviewMedia({ id, isGroup, isEditMode, isVideo } : PreviewMediaProps) 
     ? "item-group" 
     : `item-asset ${isVideo && ("video")}`;
 
+  const [previewError, setPreviewError] = useState(false);
+
   return (<>
     <img
-      src={previewUrl}
+    
+      src={previewError ? CONSTANTS.ASSET_NOT_FOUND_IMAGE : previewUrl}
+      onError={() => setPreviewError(true)}
       className={classStyle}
       alt=""
     />

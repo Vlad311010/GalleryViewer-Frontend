@@ -39,7 +39,6 @@ export function Gallery({ identifier } : GalleryProps ) {
   const listItemsResponse = useListItems(identifier, filterParams);
   let data = listItemsResponse.data
 
-
   return (<>
     <title>{`${identifier}-${page}`}</title>
     <div className="markdown-toolbar">

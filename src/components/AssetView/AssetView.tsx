@@ -22,8 +22,7 @@ export function AssetView({ identifier }: AssetViewProps) {
         renderElement = <AssetViewImage identifier={identifier} />;
     }
     else if (mimeType?.startsWith("video/")) {
-        <AssetViewVideo identifier={identifier} />;
-        return 
+        renderElement = <AssetViewVideo identifier={identifier} />;
     }
 
     if (renderElement) {

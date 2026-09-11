@@ -3,6 +3,8 @@ export const CONSTANTS = {
   TAG_SEPARATOR_CHARACTER: '_',
   SPACE_CHARACTER: ' ',
   TAG_EXCLUSION_CHARACTER: '-',
+
+  ASSET_NOT_FOUND_IMAGE: '/images/preview404.png'
 } as const;
 
 
