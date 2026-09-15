@@ -9,7 +9,6 @@ export const APP_CONFIG = {
   paginatorMaxButtonsDisplayed: 10,
 
   baseUrl: import.meta.env.API_URL,
-  openapiSource: import.meta.env.OPENAPI_SOURCE,
 
   tagSearchFetchLimit: 12,
 };
