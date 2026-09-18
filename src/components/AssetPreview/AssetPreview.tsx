@@ -26,8 +26,13 @@ export function AssetPreview({ item }: AssetPreviewProps) {
 
   const { isEditMode } = useViewMode();
   const groupData = useGroupContext();
+  const isGroup = item.type === DisplayItemType.Group;
 
-  const { data: assetMimeType, isLoading } = useAssetMimeType(item.id);
+  const { data: assetMimeType, isLoading } = useAssetMimeType(item.id, {
+    query: {
+      enabled: !isGroup,
+    },
+  });
 
   if (isLoading) {
     return (
@@ -39,11 +44,9 @@ export function AssetPreview({ item }: AssetPreviewProps) {
     );
   }
 
-
-  const isVideo = assetMimeType?.startsWith("video") ?? false;
-  const isGroup = item.type === DisplayItemType.Group;
-
+  const isVideo = !assetMimeType || isGroup ? false : assetMimeType.startsWith("video");
   const assetPositionData = isEditMode && groupData && getAssetPosition(item.id, groupData.positions);
+
   return (
     <div className="gallery-item">
       <figure className="gallery-item-image">

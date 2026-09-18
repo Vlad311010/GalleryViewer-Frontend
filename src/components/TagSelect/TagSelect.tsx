@@ -29,6 +29,7 @@ export function TagSelect(props: useTagSearchInputProps) {
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        autoComplete="off"
         type="search"
         placeholder="Add tag..."
         className="tag-input"
