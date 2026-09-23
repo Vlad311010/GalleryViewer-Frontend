@@ -47,17 +47,6 @@ export function Gallery({ identifier } : GalleryProps ) {
       </Link>
 
       <FiltersInput value={searchBarValue} setValue={setSearchBarValue} onSubmit={setSearchQuery} />
-
-      <select className="toolbar-select">
-        <option value="name">Name</option>
-        <option value="date">Date</option>
-        <option value="size">Size</option>
-      </select>
-
-      <select className="toolbar-select toolbar-direction">
-        <option value="asc">ASC</option>
-        <option value="desc">DESC</option>
-      </select>
     </div>
 
     <ItemsGrid 

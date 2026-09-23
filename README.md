@@ -118,3 +118,9 @@ Backend repository:s
 **https://github.com/Vlad311010/GalleryViewer**
 
 See the backend README for API setup, database configuration, media synchronization, and deployment instructions.
+
+## Screenshots
+
+![image](screenshots/01.png)
+
+![image](screenshots/02.png)

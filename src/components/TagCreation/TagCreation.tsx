@@ -84,7 +84,7 @@ export function TagCreation() {
         </select>
       </div>
 
-      <button className="button button-sublte" type="submit">
+      <button className="button button-subtle button-sm" type="submit">
         Create
       </button>
     </form>
